@@ -33,7 +33,43 @@ class App extends React.Component {
       percentChange: "",
       split: "",
       volume: 49749600,
-      }];
+      },
+    {
+      absoluteChange: "",
+      close: 25.560888,
+      date: new Date(1592955700000),
+      dividend: "",
+      high: 25.81840750861228,
+      low: 25.353210976925574,
+      open: 25.65226505944465,
+      percentChange: "",
+      split: "",
+      volume: 58182400
+    },
+    {
+      absoluteChange: "",
+      close: 25.718722,
+      date: new Date(1592936700000),
+      dividend: "",
+      high: 25.83502196495549,
+      low: 25.452895407434543,
+      open: 25.627344939513726,
+      percentChange: "",
+      split: "",
+      volume: 49749600,
+      },
+    {
+      absoluteChange: "",
+      close: 25.560888,
+      date: new Date(1591955700000),
+      dividend: "",
+      high: 25.81840750861228,
+      low: 25.353210976925574,
+      open: 25.65226505944465,
+      percentChange: "",
+      split: "",
+      volume: 58182400
+    }];
 
     this.setState({ data });
 
