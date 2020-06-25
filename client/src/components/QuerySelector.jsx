@@ -14,6 +14,10 @@ const QuerySelector = ({ fetchAllData }) => {
         <option value='ETH'>ETH</option>
         <option value='XRP'>XRP</option>
         <option value='LTC'>LTC</option>
+        <option value='BCH'>BCH</option>
+        <option value='XMR'>XMR</option>
+        <option value='EOS'>EOS</option>
+        <option value='BNB'>BNB</option>
       </select>
       <select onChange={ (e) => {
         setTimeScale(e.target.value);

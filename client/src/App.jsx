@@ -36,6 +36,7 @@ class App extends React.Component {
       data = data.Data.Data;
       return data.map((row) => {
         row.date = new Date(row.time * 1000);
+        row.volume = row.volumeto;
         return row;
       })
     })
@@ -76,7 +77,7 @@ class App extends React.Component {
           <div>Loading...</div> :
           <>
             <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
-            <ChartView data={ this.state.historicData } />
+            <ChartView data={ this.state.historicData } currentTimeScale={ this.state.currentTimeScale } />
           </>}
           <QuerySelector fetchAllData = { this.fetchAllData } />
       </>
