@@ -3,10 +3,7 @@ const models = require('./models');
 module.exports = {
 
   getHistoricData: (req, res) => {
-    let symbol = req.params.symbol;
-    let timeScale = req.params.timeScale;
-
-    models.apiGetHistoricData(symbol, timeScale)
+    models.apiGetHistoricData(req.params.symbol, req.params.timeScale)
       .then(({data}) => {
         res.send(data);
       })
@@ -17,9 +14,7 @@ module.exports = {
   },
 
   getCurrentData: (req, res) => {
-    let symbol = req.params.symbol;
-
-    models.apiGetCurrentData(symbol)
+    models.apiGetCurrentData(req.params.symbol)
       .then(({data}) => {
         res.send(data);
       })
@@ -27,6 +22,61 @@ module.exports = {
         console.log('API GET ERROR: ', err);
         res.sendStatus(404);
       });
-  }
+  },
+
+  addUser: (req, res) => {
+    models.dbAddUser(req.body)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log('DB POST ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
+  loginUser: (req, res) => {
+    models.dbLoginUser(req.body)
+      .then((token) => {
+        res.send(token);
+      })
+      .catch((err) => {
+        console.log('DB POST ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
+  logoutUser: (req, res) => {
+    models.dbLogoutUser(req.params.token)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log('DB POST ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
+  getUserData: (req, res) => {
+    models.dbGetUserData(req.params.token)
+      .then(([{ username, positions, cash }]) => {
+        res.send({ username, positions, cash });
+      })
+      .catch((err) => {
+        console.log('DB GET ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
+  updateUserData: (req, res) => {
+    models.dbUpdateUserData(req.params.token, req.body)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log('DB GET ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
 
 }

@@ -21,7 +21,8 @@
     "morgan": "^1.10.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-stockcharts": "^0.7.8"
+    "react-stockcharts": "^0.7.8",
+    "uid-generator": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

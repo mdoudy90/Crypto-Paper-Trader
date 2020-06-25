@@ -5,6 +5,7 @@ mongoose.connect('mongodb://localhost/cryptoTrader', {useNewUrlParser: true});
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  token: String,
   username: { type: String, unique: true },
   password: String,
   firstName: String,

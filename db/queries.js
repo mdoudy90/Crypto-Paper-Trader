@@ -1,13 +1,25 @@
+const UIDGenerator = require('uid-generator');
 const { User } = require('./connection');
 
-// const test = new User({
-//   username: 'mdoudy90',
-//   password: 'password',
-//   firstName: 'Michael',
-//   lastName: 'Doudy',
-//   email: 'michael.doudy@gmail.com',
-//   positions: { BTC: 100 },
-//   cash: 1000000
-// });
-
-// test.save();
+module.exports = {
+  addUser: (userData) => {
+    return new User({ ...userData, cash: 1000000 }).save();
+  },
+  loginUser: (loginData) => {
+    const uidgen = new UIDGenerator(256);
+    return uidgen.generate()
+      .then((uid) => {
+        User.findOneAndUpdate(loginData, { token: uid }).exec();
+        return uid;
+      });
+  },
+  logoutUser: (token) => {
+    return User.findOneAndUpdate({ token }, { token: '' });
+  },
+  getUserData: (token) => {
+    return User.find({ token }).exec();
+  },
+  updateUserData: (token, data) => {
+    return User.findOneAndUpdate({ token }, data);
+  },
+}
