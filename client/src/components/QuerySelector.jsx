@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const QuerySelector = ({ fetchHistoricData }) => {
+const QuerySelector = ({ fetchAllData }) => {
   const [symbol, setSymbol] = useState('BTC');
   const [timeScale, setTimeScale] = useState('day');
 
@@ -8,7 +8,7 @@ const QuerySelector = ({ fetchHistoricData }) => {
     <div>
       <select onChange={ (e) => {
         setSymbol(e.target.value);
-        fetchHistoricData(e.target.value, timeScale);
+        fetchAllData(e.target.value, timeScale);
         }}>
         <option value='BTC'>BTC</option>
         <option value='ETH'>ETH</option>
@@ -17,7 +17,7 @@ const QuerySelector = ({ fetchHistoricData }) => {
       </select>
       <select onChange={ (e) => {
         setTimeScale(e.target.value);
-        fetchHistoricData(symbol, e.target.value);
+        fetchAllData(symbol, e.target.value);
         }}>
         <option value='day'>Daily</option>
         <option value='hour'>Hourly</option>

@@ -1,7 +1,6 @@
 const apiHelpers = require('./apiHelpers');
 
 module.exports = {
-  apiGetHistoricData: (symbol, timeScale) => {
-    return apiHelpers.getHistoricData(symbol, timeScale);
-  }
+  apiGetHistoricData: (symbol, timeScale) => apiHelpers.getHistoricData(symbol, timeScale),
+  apiGetCurrentData: (symbol) => apiHelpers.getCurrentData(symbol)
 }

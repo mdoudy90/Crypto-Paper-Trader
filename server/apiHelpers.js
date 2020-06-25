@@ -14,5 +14,12 @@ module.exports = {
     const params = `?fsym=${symbol}&tsym=${toSymbol}&limit=${limit}&api_key=${API_KEY}`;
     const URL = `${API_HOST}${endPoint}${params}`;
     return axios.get(URL);
+  },
+  getCurrentData: (symbol = fromSymbol) => {
+    const endPoint = 'pricemultifull';
+    const params = `?fsyms=${symbol}&tsyms=${toSymbol}&api_key=${API_KEY}`;
+    const URL = `${API_HOST}${endPoint}${params}`;
+    return axios.get(URL);
   }
 }
+
