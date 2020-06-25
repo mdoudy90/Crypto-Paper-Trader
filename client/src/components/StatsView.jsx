@@ -4,52 +4,55 @@ import moment from 'moment';
 const StatsView = ({ data, controlLiveDataStream }) => {
   const [isLive, toggleIsLive] = useState(false);
   return (
-    <div>
+    <>
+      <div className='stats-header'>
+        <h3>{ data.RAW.FROMSYMBOL }</h3>
+        <img src={`https://www.cryptocompare.com${data.DISPLAY.IMAGEURL}`}></img>
+        <div className='live-toggle-container'>
+          <p>LAST UPDATE: { moment().calendar(new Date(data.RAW.LASTUPDATE * 1000)).toUpperCase() }</p>
+          <label>LIVE <input checked = {isLive ? true : false} type="checkbox" onChange = { () => {
+                    toggleIsLive(!isLive);
+                    controlLiveDataStream(!isLive);
+                  } } />
+          </label>
+        </div>
+      </div>
+      <div className='stats-container'>
+        <div>
+          <h4>PRICE</h4>
+          <div>{ data.DISPLAY.PRICE }</div>
+        </div>
+        <div>
+          <h4>MARKET CAP</h4>
+          <div>{ data.DISPLAY.MKTCAP }</div>
+        </div>
+        <div>
+          <h4>SUPPLY</h4>
+          <div>{ data.DISPLAY.SUPPLY }</div>
+        </div>
+        <div>
+          <h4>24 HOUR % CHANGE</h4>
+          <div className={ data.RAW.CHANGEPCT24HOUR < 0 ? 'negative' : 'positive' }>{ data.DISPLAY.CHANGEPCT24HOUR }</div>
+        </div>
+        <div>
+          <h4>24 HOUR LOW</h4>
+          <div>{ data.DISPLAY.LOW24HOUR }</div>
+        </div>
+        <div>
+          <h4>24 HOUR HIGH</h4>
+          <div>{ data.DISPLAY.HIGH24HOUR }</div>
+        </div>
+        <div>
+          <h4>24 HOUR CHANGE</h4>
+          <div className={ data.RAW.CHANGE24HOUR < 0 ? 'negative' : 'positive' }>{ data.DISPLAY.CHANGE24HOUR }</div>
+        </div>
+        <div>
+          <h4>24 HOUR OPEN</h4>
+          <div>{ data.DISPLAY.OPEN24HOUR }</div>
+        </div>
 
-      <label>
-        LIVE <input checked = {isLive ? true : false} type="checkbox" onChange = { () => {
-            toggleIsLive(!isLive);
-            controlLiveDataStream(!isLive);
-          } } />
-      </label>
-
-      <h3>{ data.RAW.FROMSYMBOL } { data.DISPLAY.FROMSYMBOL }</h3>
-      <img src={`https://www.cryptocompare.com${data.DISPLAY.IMAGEURL}`}></img>
-      <p>LAST UPDATE: { moment().calendar(new Date(data.RAW.LASTUPDATE * 1000)) }</p>
-      <div>
-        <div>PRICE</div>
-        <div>{ data.DISPLAY.PRICE }</div>
       </div>
-      <div>
-        <div>MARKET CAP</div>
-        <div>{ data.DISPLAY.MKTCAP }</div>
-      </div>
-      <div>
-        <div>SUPPLY</div>
-        <div>{ data.DISPLAY.SUPPLY }</div>
-      </div>
-      <div>
-        <div>24 HOUR CHANGE</div>
-        <div>{ data.DISPLAY.CHANGE24HOUR }</div>
-      </div>
-      <div>
-        <div>24 HOUR LOW</div>
-        <div>{ data.DISPLAY.LOW24HOUR }</div>
-      </div>
-      <div>
-        <div>24 HOUR HIGH</div>
-        <div>{ data.DISPLAY.HIGH24HOUR }</div>
-      </div>
-      <div>
-        <div>24 HOUR OPEN</div>
-        <div>{ data.DISPLAY.OPEN24HOUR }</div>
-      </div>
-      <div>
-        <div>24 HOUR TOTAL VOLUME</div>
-        <div>{ data.DISPLAY.TOTALVOLUME24HTO }</div>
-      </div>
-
-    </div>
+    </>
   );
 }
 

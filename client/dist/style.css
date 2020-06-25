@@ -1,0 +1,58 @@
+* {
+  font-family: sans-serif;
+}
+
+.stats-header {
+  border-bottom: 1px solid #000;
+  display: grid;
+  grid-template-columns: 100px 50px 1fr 300px;
+  padding-bottom: 10px;
+}
+
+.stats-header h3 {
+  font-size: 40px;
+  margin: 0;
+}
+
+.stats-header img {
+  height: 35px;
+  padding: 5px 0;
+}
+
+.live-toggle-container {
+  grid-column: 4;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.live-toggle-container p,
+.live-toggle-container label {
+  text-align: right;
+  font-size: 14px;
+  margin: 0;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.stats-container h4 {
+  font-size: 14px;
+}
+
+.stats-container div {
+  padding-bottom: 10px;
+}
+
+.negative {
+  color: rgb(216, 19, 19);
+}
+
+.postive {
+  color: rgb(32, 192, 11);
+}

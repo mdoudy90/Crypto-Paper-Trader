@@ -11,6 +11,7 @@ class App extends React.Component {
       historicData: [],
       currentData: {},
       currentSymbol: 'BTC',
+      currentTimeScale: 'day',
       liveIntervalID: ''
     }
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
@@ -47,7 +48,7 @@ class App extends React.Component {
   }
 
   fetchAllData(symbol, timeScale, toCurrency) {
-    this.setState({ currentSymbol: symbol });
+    this.setState({ currentSymbol: symbol, currentTimeScale: timeScale });
     this.fetchHistoricData(symbol, timeScale);
     this.fetchCurrentData(symbol, toCurrency);
   }
@@ -55,7 +56,7 @@ class App extends React.Component {
   controlLiveDataStream(switchOn) {
     if (switchOn) {
       let liveIntervalID = setInterval( () => {
-        this.fetchCurrentData(this.state.currentSymbol)
+        this.fetchAllData(this.state.currentSymbol, this.state.currentTimeScale)
        } , 5000);
       this.setState({ liveIntervalID });
     } else {
@@ -71,13 +72,13 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <QuerySelector fetchAllData = { this.fetchAllData } />
         {!this.state.historicData.length || !Object.keys(this.state.currentData).length ?
           <div>Loading...</div> :
           <>
-            <ChartView data={ this.state.historicData } />
             <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
+            <ChartView data={ this.state.historicData } />
           </>}
+          <QuerySelector fetchAllData = { this.fetchAllData } />
       </>
     );
   }
