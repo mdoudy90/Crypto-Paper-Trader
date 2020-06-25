@@ -4,7 +4,9 @@ module.exports = {
 
   getHistoricData: (req, res) => {
     let symbol = req.params.symbol;
-    models.apiGetHistoricData(symbol)
+    let timeScale = req.params.timeScale;
+
+    models.apiGetHistoricData(symbol, timeScale)
       .then(({data}) => {
         res.send(data);
       })
