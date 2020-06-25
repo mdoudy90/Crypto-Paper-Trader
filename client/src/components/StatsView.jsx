@@ -4,8 +4,8 @@ import moment from 'moment';
 const StatsView = ({ data, controlLiveDataStream }) => {
   const [isLive, toggleIsLive] = useState(false);
   return (
-    <>
-      <div className='stats-header'>
+    <div className = 'stats-view-container'>
+      <div className = 'stats-header'>
         <h3>{ data.RAW.FROMSYMBOL }</h3>
         <img src={`https://www.cryptocompare.com${data.DISPLAY.IMAGEURL}`}></img>
         <div className='live-toggle-container'>
@@ -17,7 +17,7 @@ const StatsView = ({ data, controlLiveDataStream }) => {
           </label>
         </div>
       </div>
-      <div className='stats-container'>
+      <div className = 'stats-container'>
         <div>
           <h4>PRICE</h4>
           <div>{ data.DISPLAY.PRICE }</div>
@@ -52,7 +52,7 @@ const StatsView = ({ data, controlLiveDataStream }) => {
         </div>
 
       </div>
-    </>
+    </div>
   );
 }
 

@@ -2,6 +2,26 @@
   font-family: sans-serif;
 }
 
+body #root {
+  display: grid;
+  grid-template-columns: 1fr 1100px 1fr;
+}
+
+.chart-view-container {
+  /* border: 1px solid #000; */
+  grid-column: 2;
+}
+
+.stats-view-container {
+  /* border: 1px solid #000; */
+  grid-column: 2;
+}
+
+.query-selector-container {
+  /* border: 1px solid #000; */
+  grid-column: 2;
+}
+
 .stats-header {
   border-bottom: 1px solid #000;
   display: grid;

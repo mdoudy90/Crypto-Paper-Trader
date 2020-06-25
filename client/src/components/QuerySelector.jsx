@@ -5,7 +5,7 @@ const QuerySelector = ({ fetchAllData }) => {
   const [timeScale, setTimeScale] = useState('day');
 
   return (
-    <div>
+    <div className = 'query-selector-container'>
       <select onChange={ (e) => {
         setSymbol(e.target.value);
         fetchAllData(e.target.value, timeScale);

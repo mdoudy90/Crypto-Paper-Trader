@@ -47,66 +47,66 @@ class ChartView extends React.Component {
 		]);
 
 		return (
-			<>
-			<label>LINE <input type="checkbox" onChange = { () => { this.setState({ showCandleView: !this.state.showCandleView }) } } /> CANDLES
+			<div className = 'chart-view-container'>
+				<label>LINE <input type="checkbox" onChange = { () => { this.setState({ showCandleView: !this.state.showCandleView }) } } /> CANDLES
+					</label>
+					<br></br>
+				<label>VOLUME <input type="checkbox" onChange = { () => { this.setState({ showVolume: !this.state.showVolume }) } } />
 				</label>
-				<br></br>
-			<label>VOLUME <input type="checkbox" onChange = { () => { this.setState({ showVolume: !this.state.showVolume }) } } />
-			</label>
 
-			<ChartCanvas
-			  height={500}
-				ratio={ratio}
-				width={width}
-				margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
-				seriesName="Crypto-Standard-View"
-				data={data}
-				xScale={xScale}
-				xAccessor={xAccessor}
-				displayXAccessor={displayXAccessor}
-				xExtents={xExtents}
-			>
+				<ChartCanvas
+					height={500}
+					ratio={ratio}
+					width={1050}
+					margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+					seriesName="Crypto-Standard-View"
+					data={data}
+					xScale={xScale}
+					xAccessor={xAccessor}
+					displayXAccessor={displayXAccessor}
+					xExtents={xExtents}
+				>
 
-				{ this.state.showCandleView ?
+					{ this.state.showCandleView ?
 
-						<Chart id={0} yExtents={d => [d.high, d.low]}>
-							<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-							<YAxis axisAt="right" orient="right" ticks={5} />
-							<MouseX />
-							<MouseY position={"right"} display={".2f"} />
-							<EdgeIndicator itemType="last" orient="right" edgeAt="right"
-								yAccessor={d => d.close} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"}/>
-							<CandlestickSeries />
-							<OHLCTooltip forChart={0} origin={[-40, 0]} />
-						</Chart> :
-
-						<Chart id={1} yExtents={d => d.close}>
+							<Chart id={0} yExtents={d => [d.high, d.low]}>
 								<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-								<YAxis axisAt="right" orient="right" />
+								<YAxis axisAt="right" orient="right" ticks={5} />
 								<MouseX />
 								<MouseY position={"right"} display={".2f"} />
 								<EdgeIndicator itemType="last" orient="right" edgeAt="right"
-								yAccessor={d => d.close} fill={d => "#4286f4"}/>
-								<AreaSeries
-									yAccessor={d => d.close}
-									strokeWidth={1}
-									canvasGradient={canvasGradient}
-								/>
-								<OHLCTooltip forChart={1} origin={[-40, 0]} />
-						</Chart> }
+									yAccessor={d => d.close} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"}/>
+								<CandlestickSeries />
+								<OHLCTooltip forChart={0} origin={[-40, 0]} />
+							</Chart> :
 
-				{ this.state.showVolume &&
+							<Chart id={1} yExtents={d => d.close}>
+									<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
+									<YAxis axisAt="right" orient="right" />
+									<MouseX />
+									<MouseY position={"right"} display={".2f"} />
+									<EdgeIndicator itemType="last" orient="right" edgeAt="right"
+									yAccessor={d => d.close} fill={d => "#4286f4"}/>
+									<AreaSeries
+										yAccessor={d => d.close}
+										strokeWidth={1}
+										canvasGradient={canvasGradient}
+									/>
+									<OHLCTooltip forChart={1} origin={[-40, 0]} />
+							</Chart> }
 
-						<Chart id={2} origin={(w, h) => [0, h - 150]} height={150} yExtents={d => d.volume}>
-							<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
-							<MouseX />
-							<MouseY position={"left"} display={".4s"} />
-							<BarSeries yAccessor={d => d.volume} fill={(d) => d.close > d.open ? 'rgba(41, 163, 41,0.3)' : 'rgba(255,0,0,0.3)'} />
-						</Chart> }
+					{ this.state.showVolume &&
 
-				<CrossHairCursor />
-			</ChartCanvas>
-			</>
+							<Chart id={2} origin={(w, h) => [0, h - 150]} height={150} yExtents={d => d.volume}>
+								<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
+								<MouseX />
+								<MouseY position={"left"} display={".4s"} />
+								<BarSeries yAccessor={d => d.volume} fill={(d) => d.close > d.open ? 'rgba(41, 163, 41,0.3)' : 'rgba(255,0,0,0.3)'} />
+							</Chart> }
+
+					<CrossHairCursor />
+				</ChartCanvas>
+			</div>
 		);
 	}
 }

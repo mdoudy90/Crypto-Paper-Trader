@@ -17,6 +17,7 @@
     "d3-time-format": "^2.2.3",
     "express": "^4.17.1",
     "moment": "^2.27.0",
+    "mongoose": "^5.9.20",
     "morgan": "^1.10.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
