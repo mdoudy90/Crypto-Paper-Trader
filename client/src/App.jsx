@@ -5,6 +5,7 @@ import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
 import SignUp from './components/SignUp.jsx';
 import Login from './components/Login.jsx';
+import OrderForm from './components/OrderForm.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -25,7 +26,9 @@ class App extends React.Component {
     this.addNewUser = this.addNewUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
+    this.getUserData = this.getUserData.bind(this);
     this.switchView = this.switchView.bind(this);
+    this.placeOrder = this.placeOrder.bind(this);
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
@@ -87,6 +90,7 @@ class App extends React.Component {
     axios.post('/users/login', userData)
       .then(({data}) => {
         this.setState({ token: data, currentView: 'charts' });
+        this.getUserData();
       }).catch((err) => {
         alert('Username and/or password does not match');
       });
@@ -99,6 +103,19 @@ class App extends React.Component {
       }).catch((err) => {
         console.log('Logout unsuccessful');
       });
+  }
+
+  getUserData() {
+    axios.get(`/users/data/${this.state.token}`)
+      .then(({data}) => {
+        this.setState(data);
+      }).catch((err) => {
+        console.log('User data fetch unsuccessful');
+      });
+  }
+
+  placeOrder(order) {
+    console.log({...order, username: this.state.username });
   }
 
   switchView(view) {
@@ -120,8 +137,9 @@ class App extends React.Component {
           <>
             <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
             <ChartView data={ this.state.historicData } currentTimeScale={ this.state.currentTimeScale } />
+            <QuerySelector fetchAllData = { this.fetchAllData } />
+            <OrderForm symbol = { this.state.currentSymbol } currentPrice = { this.state.currentData.RAW.PRICE } placeOrder = { this.placeOrder } />
           </>}
-          <QuerySelector fetchAllData = { this.fetchAllData } />
         </> }
 
       { this.state.currentView === 'signup' && <SignUp addNewUser = { this.addNewUser }/> }
