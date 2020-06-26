@@ -2,6 +2,8 @@ import React from 'react';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
+import SignUp from './components/SignUp.jsx';
+import Login from './components/Login.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -12,12 +14,15 @@ class App extends React.Component {
       currentData: {},
       currentSymbol: 'BTC',
       currentTimeScale: 'day',
-      liveIntervalID: ''
+      liveIntervalID: '',
+      currentView: 'Charts'
     }
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
     this.fetchHistoricData = this.fetchHistoricData.bind(this);
     this.fetchAllData = this.fetchAllData.bind(this);
     this.controlLiveDataStream = this.controlLiveDataStream.bind(this);
+    this.addNewUser = this.addNewUser.bind(this);
+    this.loginUser = this.loginUser.bind(this);
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
@@ -66,6 +71,24 @@ class App extends React.Component {
     }
   }
 
+  addNewUser(newUserData) {
+    axios.post('/users', newUserData)
+      .then(() => {
+        this.loginUser({ username: newUserData.username, password: newUserData.password });
+      }).catch((err) => {
+        alert('Username already taken');
+      })
+  }
+
+  loginUser(userData) {
+    axios.post('/users/login', userData)
+      .then(({data}) => {
+        this.setState({ token: data });
+      }).catch((err) => {
+        alert('Username and/or password does not match');
+      })
+  }
+
   componentDidMount() {
     this.fetchAllData();
   }
@@ -73,6 +96,8 @@ class App extends React.Component {
   render() {
     return (
       <>
+      { this.state.currentView === 'Charts' &&
+        <>
         {!this.state.historicData.length || !Object.keys(this.state.currentData).length ?
           <div>Loading...</div> :
           <>
@@ -80,6 +105,10 @@ class App extends React.Component {
             <ChartView data={ this.state.historicData } currentTimeScale={ this.state.currentTimeScale } />
           </>}
           <QuerySelector fetchAllData = { this.fetchAllData } />
+        </> }
+
+      { this.state.currentView === 'SignUp' && <SignUp addNewUser = { this.addNewUser }/> }
+      { this.state.currentView === 'Login' && <Login loginUser = { this.loginUser }/> }
       </>
     );
   }

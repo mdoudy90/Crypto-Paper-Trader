@@ -9,8 +9,14 @@ module.exports = {
     const uidgen = new UIDGenerator(256);
     return uidgen.generate()
       .then((uid) => {
-        User.findOneAndUpdate(loginData, { token: uid }).exec();
-        return uid;
+        return User.findOneAndUpdate(loginData, { token: uid }).exec()
+        .then((data) => {
+          if (!data) {
+            throw 'NO MATCH FOUND';
+          } else {
+            return uid;
+          }
+        })
       });
   },
   logoutUser: (token) => {

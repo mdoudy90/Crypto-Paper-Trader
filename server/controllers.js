@@ -38,6 +38,7 @@ module.exports = {
   loginUser: (req, res) => {
     models.dbLoginUser(req.body)
       .then((token) => {
+        console.log(token);
         res.send(token);
       })
       .catch((err) => {
