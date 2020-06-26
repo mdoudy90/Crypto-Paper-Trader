@@ -12,9 +12,21 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   positions: {},
-  cash: Number
+  cashAvailable: Number,
+  portfolioValue: Number
+}, { timestamps: true });
+
+const orderSchema = new Schema({
+  action: String,
+  price: Number,
+  quantity: Number,
+  symbol: String,
+  timePlaced: String,
+  username: String,
+  filled: Boolean,
 }, { timestamps: true });
 
 module.exports = {
   User: mongoose.model('User', userSchema),
+  Order: mongoose.model('Order', orderSchema),
 }

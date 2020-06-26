@@ -27,6 +27,7 @@ class App extends React.Component {
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
     this.getUserData = this.getUserData.bind(this);
+    this.updateUserData = this.updateUserData.bind(this);
     this.switchView = this.switchView.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
   }
@@ -114,8 +115,23 @@ class App extends React.Component {
       });
   }
 
-  placeOrder(order) {
-    console.log({...order, username: this.state.username });
+  updateUserData(newData) {
+    axios.post(`/users/data/${this.state.token}`, newData)
+      .then(() => {
+        this.getUserData();
+      }).catch((err) => {
+        console.log('User data update failed');
+      });
+  }
+
+  placeOrder(order, total) {
+    this.updateUserData({cashAvailable: this.state.cashAvailable - total});
+    axios.post('/orders', { ...order, username: this.state.username })
+      .then(() => {
+        console.log('Order placed');
+      }).catch((err) => {
+        console.log('Order placement failed');
+      });
   }
 
   switchView(view) {
@@ -138,7 +154,13 @@ class App extends React.Component {
             <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
             <ChartView data={ this.state.historicData } currentTimeScale={ this.state.currentTimeScale } />
             <QuerySelector fetchAllData = { this.fetchAllData } />
-            <OrderForm symbol = { this.state.currentSymbol } currentPrice = { this.state.currentData.RAW.PRICE } placeOrder = { this.placeOrder } />
+            { this.state.token &&
+              <OrderForm
+                symbol = { this.state.currentSymbol }
+                currentPrice = { this.state.currentData.RAW.PRICE }
+                cashAvailable = { this.state.cashAvailable }
+                placeOrder = { this.placeOrder } />
+              }
           </>}
         </> }
 

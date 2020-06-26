@@ -60,8 +60,8 @@ module.exports = {
 
   getUserData: (req, res) => {
     models.dbGetUserData(req.params.token)
-      .then(([{ username, positions, cash }]) => {
-        res.send({ username, positions, cash });
+      .then(([{ username, positions, cashAvailable, portfolioValue }]) => {
+        res.send({ username, positions, cashAvailable, portfolioValue });
       })
       .catch((err) => {
         console.log('DB GET ERROR: ', err);
@@ -76,6 +76,17 @@ module.exports = {
       })
       .catch((err) => {
         console.log('DB GET ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
+  addOrder: (req, res) => {
+    models.dbAddOrder(req.body)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log('DB POST ERROR: ', err);
         res.sendStatus(404);
       });
   },

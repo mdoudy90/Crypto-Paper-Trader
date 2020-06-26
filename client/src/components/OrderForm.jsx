@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 
-const OrderForm = ({ symbol = 'BTC', currentPrice, placeOrder }) => {
+const OrderForm = ({ symbol = 'BTC', currentPrice, cashAvailable, placeOrder }) => {
   const [ action, setAction ] = useState('buy');
   const [ quantity, setQuantity ] = useState(0);
   const [ price = currentPrice, setPrice ] = useState();
+
+  let total = quantity * price;
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (total > cashAvailable) {
+      alert('Not enough cash');
+      return;
+    }
+    placeOrder({ action, symbol, quantity, price, timePlaced: Date() }, total);
+    setAction('buy');
+    setQuantity(0);
+    setPrice();
+  }
 
   return (
     <form>
@@ -15,14 +28,8 @@ const OrderForm = ({ symbol = 'BTC', currentPrice, placeOrder }) => {
       </select>
       <input value = { quantity } onChange = { (e) => setQuantity(e.target.value) }></input>
       <input value = { price } onChange = { (e) => setPrice(e.target.value) }></input>
-      <p>{ `TOTAL: $${ quantity * price }` }</p>
-      <button onClick = { (e) => {
-        e.preventDefault();
-        placeOrder({ action, symbol, quantity, price, time: Date() });
-        setAction('buy');
-        setQuantity(0);
-        setPrice();
-      } }>Submit</button>
+      <p>{ `TOTAL: $${ total }` }</p>
+      <button onClick = { handleClick }>Submit</button>
     </form>
   );
 }
