@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Login = ({ loginUser }) => {
+const Login = ({ loginUser, switchView }) => {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
 
@@ -15,6 +15,7 @@ const Login = ({ loginUser }) => {
         setUsername('');
         setPassword('');
       } }>Submit</button>
+      <p onClick = { () => { switchView('signup') } }>Sign up now</p>
     </form>
   );
 

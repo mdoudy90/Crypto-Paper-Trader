@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './components/Header.jsx';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
@@ -15,7 +16,7 @@ class App extends React.Component {
       currentSymbol: 'BTC',
       currentTimeScale: 'day',
       liveIntervalID: '',
-      currentView: 'Charts'
+      currentView: 'charts'
     }
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
     this.fetchHistoricData = this.fetchHistoricData.bind(this);
@@ -23,6 +24,8 @@ class App extends React.Component {
     this.controlLiveDataStream = this.controlLiveDataStream.bind(this);
     this.addNewUser = this.addNewUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
+    this.switchView = this.switchView.bind(this);
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
@@ -77,16 +80,29 @@ class App extends React.Component {
         this.loginUser({ username: newUserData.username, password: newUserData.password });
       }).catch((err) => {
         alert('Username already taken');
-      })
+      });
   }
 
   loginUser(userData) {
     axios.post('/users/login', userData)
       .then(({data}) => {
-        this.setState({ token: data });
+        this.setState({ token: data, currentView: 'charts' });
       }).catch((err) => {
         alert('Username and/or password does not match');
-      })
+      });
+  }
+
+  logoutUser() {
+    axios.post(`/users/logout/${this.state.token}`)
+      .then(() => {
+        this.setState({ token: '' });
+      }).catch((err) => {
+        console.log('Logout unsuccessful');
+      });
+  }
+
+  switchView(view) {
+    this.setState({ currentView: view });
   }
 
   componentDidMount() {
@@ -96,7 +112,8 @@ class App extends React.Component {
   render() {
     return (
       <>
-      { this.state.currentView === 'Charts' &&
+      <Header switchView = { this.switchView } isLoggedIn = { !!this.state.token } logoutUser = { this.logoutUser } />
+      { this.state.currentView === 'charts' &&
         <>
         {!this.state.historicData.length || !Object.keys(this.state.currentData).length ?
           <div>Loading...</div> :
@@ -107,8 +124,8 @@ class App extends React.Component {
           <QuerySelector fetchAllData = { this.fetchAllData } />
         </> }
 
-      { this.state.currentView === 'SignUp' && <SignUp addNewUser = { this.addNewUser }/> }
-      { this.state.currentView === 'Login' && <Login loginUser = { this.loginUser }/> }
+      { this.state.currentView === 'signup' && <SignUp addNewUser = { this.addNewUser }/> }
+      { this.state.currentView === 'login' && <Login loginUser = { this.loginUser } switchView = { this.switchView }/> }
       </>
     );
   }
