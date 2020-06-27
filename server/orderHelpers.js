@@ -114,7 +114,6 @@ module.exports = {
             }
           }
         })
-
         unfilledUserOrders.filter((order) => !order.filled);
 
         return { unfilledUserOrders, userCash, userPositions };

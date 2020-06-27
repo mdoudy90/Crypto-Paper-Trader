@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
+import Portfolio from './components/Portfolio.jsx';
 import SignUp from './components/SignUp.jsx';
 import Login from './components/Login.jsx';
 import OrderForm from './components/OrderForm.jsx';
@@ -18,7 +19,10 @@ class App extends React.Component {
       currentSymbol: 'BTC',
       currentTimeScale: 'day',
       liveIntervalID: '',
-      currentView: 'charts'
+      currentView: 'charts',
+      cashAvailable: 0.00,
+      positions: {},
+      orders: [],
     }
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
     this.fetchHistoricData = this.fetchHistoricData.bind(this);
@@ -93,7 +97,7 @@ class App extends React.Component {
   loginUser(userData) {
     axios.post('/users/login', userData)
       .then(({data}) => {
-        this.setState({ token: data, currentView: 'charts' });
+        this.setState({ token: data, currentView: 'portfolio' });
         this.getUserData();
         this.updateUserOrders();
       }).catch((err) => {
@@ -104,7 +108,7 @@ class App extends React.Component {
   logoutUser() {
     axios.post(`/users/logout/${this.state.token}`)
       .then(() => {
-        this.setState({ token: '' });
+        this.setState({ token: '', currentView: 'charts' });
       }).catch((err) => {
         console.log('Logout unsuccessful');
       });
@@ -195,6 +199,10 @@ class App extends React.Component {
           </>}
         </> }
 
+      { this.state.currentView === 'portfolio' && <Portfolio
+          cashAvailable = { this.state.cashAvailable }
+          positions = { this.state.positions }
+          orders = { this.state.orders } /> }
       { this.state.currentView === 'signup' && <SignUp addNewUser = { this.addNewUser }/> }
       { this.state.currentView === 'login' && <Login loginUser = { this.loginUser } switchView = { this.switchView }/> }
       </>
