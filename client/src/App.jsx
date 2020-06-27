@@ -22,6 +22,7 @@ class App extends React.Component {
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
     this.fetchHistoricData = this.fetchHistoricData.bind(this);
     this.fetchAllData = this.fetchAllData.bind(this);
+    this.processOrders = this.processOrders.bind(this);
     this.controlLiveDataStream = this.controlLiveDataStream.bind(this);
     this.addNewUser = this.addNewUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
@@ -125,12 +126,21 @@ class App extends React.Component {
   }
 
   placeOrder(order, total) {
-    this.updateUserData({cashAvailable: this.state.cashAvailable - total});
+    this.updateUserData({cashAvailable: this.state.cashAvailable - total, orders: [ ...this.state.orders, order ]});
     axios.post('/orders', { ...order, username: this.state.username })
       .then(() => {
         console.log('Order placed');
       }).catch((err) => {
         console.log('Order placement failed');
+      });
+  }
+
+  processOrders() {
+    axios.post('/orders/process')
+      .then(() => {
+        console.log('Orders processed');
+      }).catch((err) => {
+        console.log('Orders processing failed');
       });
   }
 
@@ -140,6 +150,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetchAllData();
+    this.processOrders();
   }
 
   render() {
@@ -172,3 +183,20 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// filling orders //
+
+// On componentDidMount
+  // for each symbols unfilled orders
+  // look at earliest createdAt order
+  // call hourly historic data for that time and after
+  // iterate through data, starting at the earliest time
+    // for each order price,
+      // check if historic price is less than order price
+      // if so, store the time filled, and change filled status to true
+
+// updating portfolio //
+
+// on login, check user db against orders db to see if filled
+  // if so, update

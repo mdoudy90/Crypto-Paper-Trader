@@ -31,4 +31,7 @@ module.exports = {
   addOrder: (orderData) => {
     return new Order({ ...orderData, filled: false }).save();
   },
+  getOrders: () => {
+    return Order.find().exec();
+  }
 }

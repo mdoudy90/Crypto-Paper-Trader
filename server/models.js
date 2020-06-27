@@ -1,4 +1,5 @@
 const apiHelpers = require('./apiHelpers');
+const orderHelpers = require('./orderHelpers');
 const queries = require('../db/queries');
 
 module.exports = {
@@ -12,4 +13,5 @@ module.exports = {
   dbUpdateUserData: (token, data) => queries.updateUserData(token, data),
 
   dbAddOrder: (orderData) => queries.addOrder(orderData),
+  processOrders: () => orderHelpers.processOrders(),
 }

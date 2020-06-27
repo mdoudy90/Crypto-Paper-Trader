@@ -12,6 +12,7 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   positions: {},
+  orders: [],
   cashAvailable: Number,
   portfolioValue: Number
 }, { timestamps: true });
@@ -22,6 +23,7 @@ const orderSchema = new Schema({
   quantity: Number,
   symbol: String,
   timePlaced: String,
+  timeFilled: String,
   username: String,
   filled: Boolean,
 }, { timestamps: true });

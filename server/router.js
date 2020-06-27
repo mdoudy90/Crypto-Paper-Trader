@@ -12,5 +12,6 @@ router.post('/users/data/:token', controllers.updateUserData);
 router.get('/users/data/:token', controllers.getUserData);
 
 router.post('/orders', controllers.addOrder);
+router.post('/orders/process', controllers.processOrders);
 
 module.exports = router;
