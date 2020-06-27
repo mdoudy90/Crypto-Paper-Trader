@@ -11,6 +11,7 @@ module.exports = {
   dbLogoutUser: (token) => queries.logoutUser(token),
   dbGetUserData: (token) => queries.getUserData(token),
   dbUpdateUserData: (token, data) => queries.updateUserData(token, data),
+  updateUserOrders: (token) => orderHelpers.updateUserOrders(token),
 
   dbAddOrder: (orderData) => queries.addOrder(orderData),
   processOrders: () => orderHelpers.processOrders(),

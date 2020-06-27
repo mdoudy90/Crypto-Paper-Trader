@@ -29,9 +29,12 @@ module.exports = {
     return User.findOneAndUpdate({ token }, data);
   },
   addOrder: (orderData) => {
-    return new Order({ ...orderData, filled: false }).save();
+    return new Order(orderData).save();
   },
   getOrders: () => {
     return Order.find().exec();
-  }
+  },
+  updateOrder: (data) => {
+    return Order.findOneAndUpdate({ _id: data._id }, data);
+  },
 }

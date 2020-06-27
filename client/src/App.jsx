@@ -1,4 +1,5 @@
 import React from 'react';
+import UIDGenerator from 'uid-generator';
 import Header from './components/Header.jsx';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
@@ -31,6 +32,7 @@ class App extends React.Component {
     this.updateUserData = this.updateUserData.bind(this);
     this.switchView = this.switchView.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
+    this.updateUserOrders = this.updateUserOrders.bind(this);
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
@@ -93,6 +95,7 @@ class App extends React.Component {
       .then(({data}) => {
         this.setState({ token: data, currentView: 'charts' });
         this.getUserData();
+        this.updateUserOrders();
       }).catch((err) => {
         alert('Username and/or password does not match');
       });
@@ -126,13 +129,20 @@ class App extends React.Component {
   }
 
   placeOrder(order, total) {
-    this.updateUserData({cashAvailable: this.state.cashAvailable - total, orders: [ ...this.state.orders, order ]});
-    axios.post('/orders', { ...order, username: this.state.username })
+    const uidgen = new UIDGenerator(256);
+    uidgen.generate()
+      .then((orderID) => {
+        order = { ...order, orderID, filled: false }
+        this.updateUserData({cashAvailable: this.state.cashAvailable - total, orders: [ ...this.state.orders, order ]});
+      })
       .then(() => {
-        console.log('Order placed');
-      }).catch((err) => {
-        console.log('Order placement failed');
-      });
+        axios.post('/orders', { ...order, username: this.state.username })
+          .then(() => {
+            console.log('Order placed');
+          }).catch((err) => {
+            console.log('Order placement failed');
+          });
+      })
   }
 
   processOrders() {
@@ -142,6 +152,16 @@ class App extends React.Component {
       }).catch((err) => {
         console.log('Orders processing failed');
       });
+  }
+
+  updateUserOrders() {
+    axios.post(`/users/orders/${this.state.token}`)
+    .then(({data}) => {
+      console.log(data);
+      this.setState(data);
+    }).catch((err) => {
+      console.log('User orders update failed');
+    });
   }
 
   switchView(view) {
@@ -184,17 +204,6 @@ class App extends React.Component {
 
 export default App;
 
-
-// filling orders //
-
-// On componentDidMount
-  // for each symbols unfilled orders
-  // look at earliest createdAt order
-  // call hourly historic data for that time and after
-  // iterate through data, starting at the earliest time
-    // for each order price,
-      // check if historic price is less than order price
-      // if so, store the time filled, and change filled status to true
 
 // updating portfolio //
 

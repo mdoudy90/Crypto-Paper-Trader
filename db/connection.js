@@ -18,6 +18,7 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 const orderSchema = new Schema({
+  orderID: String,
   action: String,
   price: Number,
   quantity: Number,

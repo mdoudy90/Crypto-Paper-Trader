@@ -80,6 +80,17 @@ module.exports = {
       });
   },
 
+  updateUserOrders: (req, res) => {
+    models.updateUserOrders(req.params.token)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.log('DB ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
   addOrder: (req, res) => {
     models.dbAddOrder(req.body)
       .then(() => {

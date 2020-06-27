@@ -23,8 +23,3 @@ module.exports = {
     return axios.get(URL);
   }
 }
-
-// &toTs=1452680400
-// Date.parse(date)
-// Date(new Date(1593207130000))
-// new Date(1593207130000)

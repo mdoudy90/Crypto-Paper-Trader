@@ -3,9 +3,12 @@ const apiHelpers = require('./apiHelpers');
 
 module.exports = {
   processOrders: () => {
-    queries.getOrders()
+    return queries.getOrders()
     .then((data) => {
       let unfilledOrders = data.filter((row) => !row.filled);
+      if (!unfilledOrders.length) {
+        throw 'NO UNFILLED ORDERS';
+      }
       let earliestOrderDate = unfilledOrders[0].timePlaced;
 
       // unixTime plus 1000 hours
@@ -65,19 +68,71 @@ module.exports = {
       return Promise.all(promiseArray).then(() => ordersBySymbol );
 
     }).then((ordersBySymbol) => {
-      console.log(ordersBySymbol); //! ALL NEW FILLED POSITIONS!!!
+      let filledOrdersArray = Object.values(ordersBySymbol).flat();
+
+      filledOrdersArray.forEach((order) => {
+        queries.updateOrder(order).then(() => {
+          console.log(`ORDER ${order._id} FILLED`);
+        }).catch((err) => {
+          console.log('ORDER UPDATE ERROR: ', err);
+        });
+      })
+    }).catch((err) => {
+      console.log(err);
     })
+  },
 
-    return Promise.resolve(1); // for tests only - delete later
-  }
+  updateUserOrders: (token) => {
+    return queries.getUserData(token).then(([data]) => {
+      let userCash = data.cashAvailable;
+      let userPositions = data.positions || {};
+      let unfilledUserOrders = data.orders.filter((order) => !order.filled);
+      if (!unfilledUserOrders.length) {
+        throw 'NO UNFILLED USER ORDERS';
+      }
+      return queries.getOrders().then((orders) => {
+        let filledOrders = orders.filter((order) => order.filled).reduce((acc, cur) => {
+          acc[cur.orderID] = cur;
+          return acc;
+        }, {});
+
+        unfilledUserOrders.forEach((userOrder) => {
+          let filledOrder = filledOrders[userOrder.orderID] ? filledOrders[userOrder.orderID] : null;
+          if (filledOrder) {
+            userOrder.filled = true;
+            userOrder.timeFilled = filledOrder.timeFilled;
+
+            if (filledOrder.action === 'buy') {
+              userPositions[filledOrder.symbol] !== undefined ?
+                userPositions[filledOrder.symbol] += filledOrder.quantity :
+                userPositions[filledOrder.symbol] = filledOrder.quantity;
+            }
+            if (filledOrder.action === 'sell') {
+              userCash += filledOrder.quantity * filledOrder.price;
+              userPositions[filledOrder.symbol] -= filledOrder.quantity;
+              userPositions[filledOrder.symbol] === 0 ? delete userPositions[filledOrder.symbol] : null;
+            }
+          }
+        })
+
+        unfilledUserOrders.filter((order) => !order.filled);
+
+        return { unfilledUserOrders, userCash, userPositions };
+      }).then(({ unfilledUserOrders, userCash, userPositions }) => {
+        let orders = unfilledUserOrders;
+        let cashAvailable = userCash;
+        let positions = userPositions;
+
+        queries.updateUserData(token, { orders, cashAvailable, positions })
+        .then((data) => {
+          console.log('USER DATA UPDATED');
+        }).catch((err) => {
+          console.log('USER UPDATE ERROR: ', err);
+        });
+        return { orders, cashAvailable, positions };
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  },
 }
-
-
-// On componentDidMount
-  // for each symbols unfilled orders
-  // look at earliest createdAt order
-  // call hourly historic data for that time and after
-  // iterate through data, starting at the earliest time
-    // for each order price,
-      // check if historic price is less than order price
-      // if so, store the time filled, and change filled status to true
