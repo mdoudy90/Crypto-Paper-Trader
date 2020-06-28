@@ -43,24 +43,27 @@ const Leaderboard = ({ users }) => {
   },[users]);
 
   return (
-    <table className = 'leaderboard-container'>
-      <tr>
-          <th>USER</th>
-          <th>PORTFOLIO VALUE</th>
-          <th>POSITIONS</th>
-      </tr>
-      { board.map((user) => {
-      return (<tr>
-          <td>{ user.username }</td>
-          <td>{ user.portfolioValue ? Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(user.portfolioValue) : 'N/A' }</td>
-          <td>
-          { Object.entries(user.positions).map((position) => {
-            return <div>{ `${position[0]}: ${position[1]['qty']} - ${Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value'])}` }</div>
-          }) }
-          </td>
-      </tr>);
-      }) }
-    </table>
+    <div className = 'leaderboard-container'>
+      <h4>TOP PERFORMERS</h4>
+      <table>
+        <tr>
+            <th>USER</th>
+            <th>PORTFOLIO VALUE</th>
+            <th>POSITIONS</th>
+        </tr>
+        { board.map((user) => {
+        return (<tr>
+            <td>{ user.username }</td>
+            <td>{ user.portfolioValue ? Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(user.portfolioValue) : 'N/A' }</td>
+            <td>
+            { Object.entries(user.positions).map((position) => {
+              return <div>{ `${position[0]}: ${position[1]['qty']} - ${Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value'])}` }</div>
+            }) }
+            </td>
+        </tr>);
+        }) }
+      </table>
+    </div>
   );
 }
 

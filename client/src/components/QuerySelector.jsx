@@ -23,9 +23,9 @@ const QuerySelector = ({ fetchAllData }) => {
         setTimeScale(e.target.value);
         fetchAllData(symbol, e.target.value);
         }}>
-        <option value='day'>Daily</option>
-        <option value='hour'>Hourly</option>
-        <option value='minute'>Minute</option>
+        <option value='day'>DAY</option>
+        <option value='hour'>HOUR</option>
+        <option value='minute'>MINUTE</option>
       </select>
     </div>
   );

@@ -18,7 +18,7 @@ const Quotes = ({ lastDataCallReference }) => {
 
   return (
     <div className = 'quotes-container'>
-        <h4>Open Orders</h4>
+        <h4>OPEN ORDERS</h4>
         <table>
           <tr>
             <th>ACTION</th>
@@ -40,7 +40,7 @@ const Quotes = ({ lastDataCallReference }) => {
         }) }
         </table>
 
-        <h4>Filled Orders</h4>
+        <h4>FILLED ORDERS</h4>
         <table>
           <tr>
             <th>ACTION</th>

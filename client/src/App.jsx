@@ -202,15 +202,24 @@ class App extends React.Component {
           <div>Loading...</div> :
           <>
             <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
-            <ChartView data={ this.state.historicData } currentTimeScale={ this.state.currentTimeScale } />
-            <QuerySelector fetchAllData = { this.fetchAllData } />
+            <ChartView
+              data={ this.state.historicData }
+              currentTimeScale={ this.state.currentTimeScale }
+              fetchAllData = { this.fetchAllData } />
             { this.state.token &&
-              <OrderForm
-                symbol = { this.state.currentSymbol }
-                currentPrice = { this.state.currentData.RAW.PRICE }
-                buyingPower = { this.state.buyingPower }
-                placeOrder = { this.placeOrder }
-                positions = { this.state.positions }/>
+              <div className = 'order-portfolio-container'>
+                <OrderForm
+                  symbol = { this.state.currentSymbol }
+                  currentPrice = { this.state.currentData.RAW.PRICE }
+                  buyingPower = { this.state.buyingPower }
+                  placeOrder = { this.placeOrder }
+                  positions = { this.state.positions }/>
+                <Portfolio
+                  cash = { this.state.cash }
+                  buyingPower = { this.state.buyingPower }
+                  positions = { this.state.positions }
+                  orders = { this.state.orders } />
+              </div>
               }
           </>}
         </> }

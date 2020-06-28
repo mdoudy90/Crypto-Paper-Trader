@@ -31,27 +31,39 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
 
   return (
     <div className = 'portfolio-container'>
-      <div>
-        <h4>Portfolio Value</h4>
-        <p>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(portfolioValue) }</p>
-      </div>
-      <div>
-        <h4>Cash</h4>
-        <p>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(cash) }</p>
-      </div>
-      <div>
-        <h4>Buying Power</h4>
-        <p>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(buyingPower) }</p>
-      </div>
-      <div>
-        <h4>Positions</h4>
-        { Object.entries(positionsObj).map((position) => {
-          return <div>{ `${position[0]}: ${position[1]['qty']} - ${Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value'])}` }</div>
-        }) }
-      </div>
-      <div>
+      <h4>ACCOUNT OVERVIEW</h4>
+      <table>
+        <tr>
+          <th>PORTFOLIO VALUE</th>
+          <th>CASH</th>
+          <th>BUYING POWER</th>
+          <th>EQUITIES</th>
+        </tr>
+        <tr>
+          <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(portfolioValue) }</td>
+          <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(cash) }</td>
+          <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(buyingPower) }</td>
+          <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(portfolioValue - cash) }</td>
+        </tr>
+      </table>
 
-      <h4>Open Orders</h4>
+      <h4>POSITIONS</h4>
+      <table>
+        <tr>
+          <th>SYMBOL</th>
+          <th>QTY</th>
+          <th>VALUE</th>
+        </tr>
+      { Object.entries(positionsObj).map((position) => {
+        return <tr>
+                <td>{ position[0] }</td>
+                <td>{ position[1]['qty'] }</td>
+                <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value']) }</td>
+              </tr>
+      }) }
+      </table>
+
+      <h4>OPEN ORDERS</h4>
         <table>
           <tr>
             <th>ACTION</th>
@@ -72,7 +84,6 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
         }) }
         </table>
       </div>
-    </div>
   );
 }
 

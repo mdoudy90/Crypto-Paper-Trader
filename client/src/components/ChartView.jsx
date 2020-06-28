@@ -1,4 +1,5 @@
 import React from "react";
+import QuerySelector from './QuerySelector.jsx';
 
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
@@ -22,7 +23,7 @@ class ChartView extends React.Component {
 	}
 	render() {
 
-		const { data: initialData, width, ratio, currentTimeScale = 'day' } = this.props;
+		const { data: initialData, width, ratio, currentTimeScale = 'day', fetchAllData } = this.props;
 
 		const MouseX = () =>
 			<MouseCoordinateX
@@ -49,6 +50,7 @@ class ChartView extends React.Component {
 		return (
 			<div className = 'chart-view-container'>
 
+				<div className = 'chart-view-options'>
 					<div className = 'chart-type-toggle'>
 						<img src = './assets/linegraph-icon.png' ></img>
 						<div className = { this.state.showCandleView ? 'toggle-switch-active' : 'toggle-switch' } >
@@ -68,6 +70,9 @@ class ChartView extends React.Component {
 						</div>
 						<img src = './assets/volume-selected-icon.png' ></img>
 					</div>
+
+					<QuerySelector fetchAllData = { fetchAllData }/>
+				</div>
 
 				<ChartCanvas
 					height={500}

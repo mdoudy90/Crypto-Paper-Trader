@@ -7,6 +7,10 @@ body {
   padding: 0;
 }
 
+h4 {
+  font-size: 14px;
+}
+
 button:focus,
 input:focus,
 select:focus {
@@ -47,7 +51,7 @@ tr:hover {
 }
 
 table tr:first-child:hover {
-  background-color: rgb(39, 0, 131);
+  background-color: rgb(31, 0, 103);
 }
 
 table tr:last-child td {
@@ -55,7 +59,7 @@ table tr:last-child td {
 }
 
 th {
-  background-color: rgb(39, 0, 131);
+  background-color: rgb(31, 0, 103);
   color: #fff;
   font-weight: normal;
 }
@@ -71,7 +75,8 @@ body #root {
 .portfolio-container,
 .leaderboard-container,
 .quotes-container,
-.user-form {
+.user-form,
+.order-portfolio-container {
   grid-column: 2;
 }
 
@@ -101,8 +106,18 @@ body #root {
   color: rgb(209, 209, 209);
 }
 
+.chart-view-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 10px;
+}
+
+.chart-view-options:last-child {
+  grid-column: 2;
+}
+
 .stats-header {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid rgb(209, 209, 209);
   display: grid;
   grid-template-columns: 100px 50px 1fr 300px;
   padding-bottom: 10px;
@@ -116,6 +131,27 @@ body #root {
 .stats-header img {
   height: 35px;
   padding: 5px 0;
+}
+
+.order-portfolio-container {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+}
+
+.query-selector-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row: 1 / span 2;
+  height: 30px;
+  width: 350px;
+  justify-self: end;
+  align-self: end;
+  margin-right: 50px;
+}
+
+.query-selector-container select {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .live-toggle-container {
@@ -149,6 +185,8 @@ body #root {
   grid-template-rows: auto;
   font-size: 26px;
   font-weight: bold;
+  border-bottom: 1px solid rgb(209, 209, 209);
+  margin-bottom: 20px;
 }
 
 .stats-container h4 {
@@ -181,8 +219,8 @@ body #root {
 }
 
 .toggle-switch-active {
-  border: 1px solid rgb(39, 0, 131);
-  background-color: rgb(39, 0, 131);
+  border: 1px solid rgb(31, 0, 103);
+  background-color: rgb(31, 0, 103);
 }
 
 .slider,
@@ -202,7 +240,7 @@ body #root {
 
 .slider-active {
   float: right;
-  border: 1px solid rgb(39, 0, 131);
+  border: 1px solid rgb(31, 0, 103);
 }
 
 .chart-type-toggle,
@@ -210,6 +248,7 @@ body #root {
   display: grid;
   width: 90px;
   grid-template-columns: 30px 30px 30px;
+  grid-column: 1;
 }
 
 .chart-type-toggle img,
@@ -241,6 +280,9 @@ body #root {
 
 .order-form {
   grid-template-rows: 1fr 40px 40px 60px 60px 40px 70px;
+  grid-column: 1;
+  height: 400px;
+  width: 300px;
 }
 
 .order-form select {
@@ -292,10 +334,10 @@ body #root {
 
 .user-form button {
   cursor: pointer;
-  background-color: rgb(39, 0, 131);
+  background-color: rgb(31, 0, 103);
   color: #fff;
 }
 
 .user-form button:hover {
-  background-color: rgb(55, 17, 146);
+  background-color: rgb(31, 0, 124);
 }

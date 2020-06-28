@@ -7,10 +7,9 @@ let limit = 2000;
 let toSymbol = 'USD';
 let fromSymbol = 'BTC';
 let timeScale = 'day';
-let timeStamp = Date.parse(new Date()) / 1000;
 
 module.exports = {
-  getHistoricData: (symbol = fromSymbol, time = timeScale, toTimestamp = timeStamp) => {
+  getHistoricData: (symbol = fromSymbol, time = timeScale, toTimestamp = Date.parse(new Date()) / 1000) => {
     const endPoint = `v2/histo${time}`;
     const params = `?fsym=${symbol}&tsym=${toSymbol}&limit=${limit}&toTs=${toTimestamp}&api_key=${API_KEY}`;
     const URL = `${API_HOST}${endPoint}${params}`;
