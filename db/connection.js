@@ -13,7 +13,8 @@ const userSchema = new Schema({
   email: String,
   positions: {},
   orders: [],
-  cashAvailable: Number,
+  cash: Number,
+  buyingPower: Number,
   portfolioValue: Number
 }, { timestamps: true });
 

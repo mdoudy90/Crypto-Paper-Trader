@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Portfolio = ({ cashAvailable, positions, orders }) => {
-  const [ portfolioValue, setPortfolioValue ] = useState(cashAvailable);
+const Portfolio = ({ cash, buyingPower, positions, orders }) => {
+  const [ portfolioValue, setPortfolioValue ] = useState(cash);
   const [ positionsObj, setPositionsObj ] = useState({});
 
   const calculatePortfolioValue = () => {
     let symbols = Object.keys(positions).join(',');
     let newPositionsObj = {};
-    let newPortfolioValue = cashAvailable;
+    let newPortfolioValue = cash;
 
     axios.get(`/currentData/${symbols}`)
     .then(({data}) => {
@@ -35,8 +35,12 @@ const Portfolio = ({ cashAvailable, positions, orders }) => {
         <p>${ portfolioValue.toFixed(2) }</p>
       </div>
       <div>
-        <h4>Cash Balance</h4>
-        <p>${ cashAvailable.toFixed(2) }</p>
+        <h4>Cash</h4>
+        <p>${ cash.toFixed(2) }</p>
+      </div>
+      <div>
+        <h4>Buying Power</h4>
+        <p>${ buyingPower.toFixed(2) }</p>
       </div>
       <div>
         <h4>Positions</h4>

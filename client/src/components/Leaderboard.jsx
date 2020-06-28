@@ -10,7 +10,7 @@ const Leaderboard = ({ users }) => {
     users.forEach((user) => {
       let userBoardObj = {
         username: user.username,
-        portfolioValue: user.cashAvailable,
+        portfolioValue: user.cash,
         positions: { ...user.positions } || {},
       };
       symbols = { ...symbols, ...user.positions };
@@ -52,7 +52,7 @@ const Leaderboard = ({ users }) => {
         </div>
         <div>
           <h4>Portfolio Value</h4>
-          <p>${ user.portfolioValue.toFixed(2) }</p>
+          <p>${ user.portfolioValue ? user.portfolioValue.toFixed(2) : '--' }</p>
         </div>
         <div>
           <h4>Positions</h4>

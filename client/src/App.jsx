@@ -22,7 +22,8 @@ class App extends React.Component {
       currentTimeScale: 'day',
       liveIntervalID: '',
       currentView: 'charts',
-      cashAvailable: 0.00,
+      buyingPower: 0.00,
+      cash: 0.00,
       positions: {},
       orders: [],
     }
@@ -111,7 +112,7 @@ class App extends React.Component {
   logoutUser() {
     axios.post(`/users/logout/${this.state.token}`)
       .then(() => {
-        this.setState({ token: '', username: null, positions: {}, orders: [], cashAvailable: null, portfolioValue: null, currentView: 'charts' });
+        this.setState({ token: '', username: null, positions: {}, orders: [], cash: null, buyingPower: null, portfolioValue: null, currentView: 'charts' });
       }).catch((err) => {
         console.log('Logout unsuccessful');
       });
@@ -140,7 +141,7 @@ class App extends React.Component {
     uidgen.generate()
       .then((orderID) => {
         order = { ...order, orderID, filled: false }
-        this.updateUserData({cashAvailable: this.state.cashAvailable - total, orders: [ ...this.state.orders, order ]});
+        this.updateUserData({buyingPower: this.state.buyingPower - total, orders: [ ...this.state.orders, order ]});
       })
       .then(() => {
         axios.post('/orders', { ...order, username: this.state.username })
@@ -206,7 +207,7 @@ class App extends React.Component {
               <OrderForm
                 symbol = { this.state.currentSymbol }
                 currentPrice = { this.state.currentData.RAW.PRICE }
-                cashAvailable = { this.state.cashAvailable }
+                buyingPower = { this.state.buyingPower }
                 placeOrder = { this.placeOrder }
                 positions = { this.state.positions }/>
               }
@@ -217,7 +218,8 @@ class App extends React.Component {
       { this.state.currentView === 'leaderboard' && this.state.users && <Leaderboard
           users = { this.state.users }  /> }
       { this.state.currentView === 'portfolio' && this.state.username && <Portfolio
-          cashAvailable = { this.state.cashAvailable }
+          cash = { this.state.cash }
+          buyingPower = { this.state.buyingPower }
           positions = { this.state.positions }
           orders = { this.state.orders } /> }
       { this.state.currentView === 'signup' && <SignUp addNewUser = { this.addNewUser }/> }

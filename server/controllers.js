@@ -60,8 +60,8 @@ module.exports = {
 
   getUserData: (req, res) => {
     models.dbGetUserData(req.params.token)
-      .then(([{ username, positions, orders, cashAvailable, portfolioValue }]) => {
-        res.send({ username, positions, orders, cashAvailable, portfolioValue });
+      .then(([{ username, positions, orders, cash, buyingPower, portfolioValue }]) => {
+        res.send({ username, positions, orders, cash, buyingPower, portfolioValue });
       })
       .catch((err) => {
         console.log('DB GET ERROR: ', err);
@@ -97,8 +97,9 @@ module.exports = {
         return data.map((user) => {
           return {
             username: user.username,
-            cashAvailable: user.cashAvailable,
-            positions: user.positions
+            cash: user.cash,
+            buyingPower: user.buyingPower,
+            positions: user.positions || {}
           };
         })
       }).then((filteredData) => {

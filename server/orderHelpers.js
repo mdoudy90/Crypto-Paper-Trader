@@ -84,7 +84,8 @@ module.exports = {
 
   updateUserOrders: (token) => {
     return queries.getUserData(token).then(([data]) => {
-      let userCash = data.cashAvailable;
+      let userBuyingPower = data.buyingPower;
+      let userCash = data.cash;
       let userPositions = data.positions || {};
       let unfilledUserOrders = data.orders.filter((order) => !order.filled);
       if (!unfilledUserOrders.length) {
@@ -103,11 +104,13 @@ module.exports = {
             userOrder.timeFilled = filledOrder.timeFilled;
 
             if (filledOrder.action === 'buy') {
+              userCash -= filledOrder.quantity * filledOrder.price;
               userPositions[filledOrder.symbol] !== undefined ?
                 userPositions[filledOrder.symbol] += filledOrder.quantity :
                 userPositions[filledOrder.symbol] = filledOrder.quantity;
             }
             if (filledOrder.action === 'sell') {
+              userBuyingPower += filledOrder.quantity * filledOrder.price;
               userCash += filledOrder.quantity * filledOrder.price;
               userPositions[filledOrder.symbol] -= filledOrder.quantity;
               userPositions[filledOrder.symbol] === 0 ? delete userPositions[filledOrder.symbol] : null;
@@ -116,19 +119,20 @@ module.exports = {
         })
         unfilledUserOrders.filter((order) => !order.filled);
 
-        return { unfilledUserOrders, userCash, userPositions };
-      }).then(({ unfilledUserOrders, userCash, userPositions }) => {
+        return { unfilledUserOrders, userCash, userBuyingPower, userPositions };
+      }).then(({ unfilledUserOrders, userCash, userBuyingPower, userPositions }) => {
         let orders = unfilledUserOrders;
-        let cashAvailable = userCash;
+        let cash = userCash;
+        let buyingPower = userBuyingPower;
         let positions = userPositions;
 
-        queries.updateUserData(token, { orders, cashAvailable, positions })
+        queries.updateUserData(token, { orders, cash, buyingPower, positions })
         .then((data) => {
           console.log('USER DATA UPDATED');
         }).catch((err) => {
           console.log('USER UPDATE ERROR: ', err);
         });
-        return { orders, cashAvailable, positions };
+        return { orders, cash, buyingPower, positions };
       });
     }).catch((err) => {
       console.log(err);

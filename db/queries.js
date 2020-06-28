@@ -3,7 +3,7 @@ const { User, Order } = require('./connection');
 
 module.exports = {
   addUser: (userData) => {
-    return new User({ ...userData, cashAvailable: 1000000 }).save();
+    return new User({ ...userData, cash: 1000000, buyingPower: 1000000 }).save();
   },
   loginUser: (loginData) => {
     const uidgen = new UIDGenerator(256);
