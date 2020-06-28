@@ -23,16 +23,16 @@ const OrderForm = ({ symbol = 'BTC', currentPrice, buyingPower, placeOrder, posi
   }
 
   return (
-    <form>
-      <h3>PLACE ORDER</h3>
-      <p>{ symbol }</p>
+    <form className='user-form order-form'>
+      <h2>PLACE ORDER</h2>
+      <p>SYMBOL: { symbol }</p>
       <select onChange={ (e) => { setAction(e.target.value) } }>
         <option value='buy'>BUY</option>
         <option value='sell'>SELL</option>
       </select>
       <input value = { quantity } onChange = { (e) => setQuantity(e.target.value) }></input>
       <input value = { price } onChange = { (e) => setPrice(e.target.value) }></input>
-      <p>{ `TOTAL: $${ total }` }</p>
+      <p>{ `TOTAL: ${ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(total) }` }</p>
       <button onClick = { handleClick }>Submit</button>
     </form>
   );

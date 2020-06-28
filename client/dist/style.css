@@ -1,6 +1,63 @@
 * {
   font-family: sans-serif;
+}
+
+body {
   margin: 0;
+  padding: 0;
+}
+
+button:focus,
+input:focus,
+select:focus {
+  outline:0;
+}
+
+table {
+  border: 1px solid rgb(190, 190, 190);
+  text-align: left;
+  border-spacing: 0;
+  border-radius: 5px;
+}
+
+table tr:first-child th:first-child {
+  border-top-left-radius: 5px;
+}
+
+table tr:first-child th:last-child {
+  border-top-right-radius: 5px;
+}
+
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+td,
+th {
+  border-bottom: 1px solid rgb(190, 190, 190);
+  padding: 10px 20px;
+}
+
+tr:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+table tr:first-child:hover {
+  background-color: rgb(39, 0, 131);
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+th {
+  background-color: rgb(39, 0, 131);
+  color: #fff;
+  font-weight: normal;
 }
 
 body #root {
@@ -10,7 +67,11 @@ body #root {
 
 .chart-view-container,
 .stats-view-container,
-.query-selector-container {
+.query-selector-container,
+.portfolio-container,
+.leaderboard-container,
+.quotes-container,
+.user-form {
   grid-column: 2;
 }
 
@@ -23,6 +84,7 @@ body #root {
 
 .header-container ul {
   display: grid;
+  margin: 5px 0;
   grid-template-rows: 1fr;
   grid-template-columns: auto;
   list-style-type: none;
@@ -92,4 +154,83 @@ body #root {
 
 .positive {
   color: rgb(32, 192, 11);
+}
+
+/* ~ FORMS --------------------------------------------------- */
+
+.user-form {
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 5px;
+  width: 400px;
+  display: grid;
+  margin: 30px auto;
+}
+
+.signup-form {
+  grid-template-rows: 1fr 70px 70px 70px 70px 70px 70px;
+}
+
+.login-form {
+  grid-template-rows: 1fr 70px 70px 70px;
+}
+
+.order-form {
+  grid-template-rows: 1fr 40px 40px 60px 60px 40px 70px;
+}
+
+.order-form select {
+  margin: 0 10px;
+  border: 1px solid rgb(190, 190, 190);
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.order-form p {
+  margin: 10px;
+  font-weight: bold;
+}
+
+.login-form p {
+  text-align: center;
+  color: rgb(0, 28, 121);
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 5px;
+  margin: 10px auto;
+}
+
+.login-form p:hover {
+  color: rgb(0, 42, 180);
+}
+
+.user-form h2 {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.user-form input,
+.user-form button {
+  border: none;
+}
+
+.user-form input,
+.user-form button {
+  margin: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.user-form input {
+  background-color: rgb(240, 240, 240);
+  padding: 0 10px;
+}
+
+.user-form button {
+  cursor: pointer;
+  background-color: rgb(39, 0, 131);
+  color: #fff;
+}
+
+.user-form button:hover {
+  background-color: rgb(55, 17, 146);
 }

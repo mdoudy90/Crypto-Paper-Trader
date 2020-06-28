@@ -1,33 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 const Quotes = ({ lastDataCallReference }) => {
-  const [ orders, setOrders ] = useState([]);
+  const [ filledOrders, setFilledOrders ] = useState([]);
+  const [ openOrders, setOpenOrders ] = useState([]);
 
   useEffect(() => {
     axios.get('/orders').then(({data}) => {
-      setOrders(data);
+      data.sort((a, b) => Date.parse(b.timePlaced) - Date.parse(a.timePlaced));
+      setFilledOrders(data.filter((order) => order.filled));
+      setOpenOrders(data.filter((order) => !order.filled));
     }).catch((err) => {
       console.log('ORDER FETCH UNSUCCESSFUL');
     })
   }, [lastDataCallReference]);
 
   return (
-    <div>
-        <h4>Market Orders</h4>
-        { orders.map((order) => {
-            return (<>
-              <div>{ order.filled ? 'Filled order' : 'Open order' }</div>
-              <div>{ `Action: ${order.action}` }</div>
-              <div>{ `Symbol: ${order.symbol}` }</div>
-              <div>{ `Quantity: ${order.quantity}` }</div>
-              <div>{ `Price: ${order.price}` }</div>
-              <div>{ `Time Placed: ${order.timePlaced}` }</div>
-              <div>{ `Time Filled: ${order.timeFilled ? order.timeFilled : 'N/A'}` }</div>
-              <div>{ `User: ${order.username}` }</div>
-              <br></br>
-            </>);
+    <div className = 'quotes-container'>
+        <h4>Open Orders</h4>
+        <table>
+          <tr>
+            <th>ACTION</th>
+            <th>SYMBOL</th>
+            <th>QTY</th>
+            <th>PRICE</th>
+            <th>TIME PLACED</th>
+            <th>USER</th>
+          </tr>
+          { openOrders.map((order) => {
+            return (<tr>
+              <td>{ order.action }</td>
+              <td>{ order.symbol }</td>
+              <td>{ order.quantity }</td>
+              <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(order.price) }</td>
+              <td>{ moment(order.timePlaced).format('MMMM Do YYYY, h:mm:ss a') }</td>
+              <td>{ order.username }</td>
+            </tr>);
         }) }
+        </table>
+
+        <h4>Filled Orders</h4>
+        <table>
+          <tr>
+            <th>ACTION</th>
+            <th>SYMBOL</th>
+            <th>QTY</th>
+            <th>PRICE</th>
+            <th>TIME PLACED</th>
+            <th>TIME FILLED</th>
+            <th>USER</th>
+          </tr>
+          { filledOrders.map((order) => {
+            return (<tr>
+              <td>{ order.action }</td>
+              <td>{ order.symbol }</td>
+              <td>{ order.quantity }</td>
+              <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(order.price) }</td>
+              <td>{ moment(order.timePlaced).format('MMMM Do YYYY, h:mm:ss a') }</td>
+              <td>{ moment(order.timeFilled).format('MMMM Do YYYY, h:mm:ss a') }</td>
+              <td>{ order.username }</td>
+            </tr>);
+        }) }
+        </table>
+
     </div>
   );
 }

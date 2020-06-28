@@ -43,29 +43,24 @@ const Leaderboard = ({ users }) => {
   },[users]);
 
   return (
-    <div>
+    <table className = 'leaderboard-container'>
+      <tr>
+          <th>USER</th>
+          <th>PORTFOLIO VALUE</th>
+          <th>POSITIONS</th>
+      </tr>
       { board.map((user) => {
-      return (<div>
-        <div>
-          <h4>Username</h4>
-          <p>{ user.username }</p>
-        </div>
-        <div>
-          <h4>Portfolio Value</h4>
-          <p>${ user.portfolioValue ? user.portfolioValue.toFixed(2) : '--' }</p>
-        </div>
-        <div>
-          <h4>Positions</h4>
+      return (<tr>
+          <td>{ user.username }</td>
+          <td>{ user.portfolioValue ? Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(user.portfolioValue) : 'N/A' }</td>
+          <td>
           { Object.entries(user.positions).map((position) => {
-            return <div>{ `${position[0]}: ${position[1]['qty']} - $${position[1]['value']}` }</div>
+            return <div>{ `${position[0]}: ${position[1]['qty']} - ${Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value'])}` }</div>
           }) }
-        </div>
-        <p>-----------</p>
-        <br></br>
-      </div>);
+          </td>
+      </tr>);
       }) }
-
-    </div>
+    </table>
   );
 }
 

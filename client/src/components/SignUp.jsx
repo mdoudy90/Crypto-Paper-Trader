@@ -8,8 +8,8 @@ const SignUp = ({ addNewUser }) => {
   const [ password, setPassword ] = useState('');
 
   return (
-    <form>
-      <h3>USER SIGN UP</h3>
+    <form className='user-form signup-form'>
+      <h2>SIGN UP</h2>
       <input value = { firstName } placeholder = { 'First name' } onChange = { (e) => setFirstName(e.target.value) }></input>
       <input value = { lastName } placeholder = { 'Last name' } onChange = { (e) => setLastName(e.target.value) }></input>
       <input value = { email } placeholder = { 'Email' } onChange = { (e) => setEmail(e.target.value) }></input>

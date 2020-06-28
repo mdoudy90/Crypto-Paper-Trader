@@ -5,8 +5,8 @@ const Login = ({ loginUser, switchView }) => {
   const [ password, setPassword ] = useState('');
 
   return (
-    <form>
-      <h3>USER LOGIN</h3>
+    <form className='user-form login-form'>
+      <h2>LOGIN</h2>
       <input value = { username } placeholder = { 'Username' } onChange = { (e) => setUsername(e.target.value) }></input>
       <input value = { password } placeholder = { 'Password' } onChange = { (e) => setPassword(e.target.value) }></input>
       <button onClick = { (e) => {
