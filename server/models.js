@@ -14,5 +14,6 @@ module.exports = {
   updateUserOrders: (token) => orderHelpers.updateUserOrders(token),
 
   dbAddOrder: (orderData) => queries.addOrder(orderData),
+  dbGetOrders: () => queries.getOrders(),
   processOrders: () => orderHelpers.processOrders(),
 }

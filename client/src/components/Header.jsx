@@ -6,6 +6,7 @@ const Header = ({ switchView, isLoggedIn, logoutUser }) => {
     <div className='header-container'>
       <ul>
         <li onClick = { () => switchView('charts') } >CHARTS</li>
+        <li onClick = { () => switchView('quotes') } >QUOTES</li>
         <li onClick = { () => switchView('leaderboard') } >LEADERBOARD</li>
         { !isLoggedIn ?
           <li onClick = { () => switchView('login') } >LOGIN</li> :

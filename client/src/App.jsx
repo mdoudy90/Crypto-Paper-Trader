@@ -5,6 +5,7 @@ import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
 import Portfolio from './components/Portfolio.jsx';
+import Quotes from './components/Quotes.jsx';
 import SignUp from './components/SignUp.jsx';
 import Login from './components/Login.jsx';
 import OrderForm from './components/OrderForm.jsx';
@@ -108,7 +109,7 @@ class App extends React.Component {
   logoutUser() {
     axios.post(`/users/logout/${this.state.token}`)
       .then(() => {
-        this.setState({ token: '', currentView: 'charts' });
+        this.setState({ token: '', username: null, positions: {}, orders: [], cashAvailable: null, portfolioValue: null, currentView: 'charts' });
       }).catch((err) => {
         console.log('Logout unsuccessful');
       });
@@ -161,10 +162,9 @@ class App extends React.Component {
   updateUserOrders() {
     axios.post(`/users/orders/${this.state.token}`)
     .then(({data}) => {
-      console.log(data);
       this.setState(data);
     }).catch((err) => {
-      console.log('User orders update failed');
+      console.log('NO UNFILLED USER ORDERS');
     });
   }
 
@@ -194,12 +194,14 @@ class App extends React.Component {
                 symbol = { this.state.currentSymbol }
                 currentPrice = { this.state.currentData.RAW.PRICE }
                 cashAvailable = { this.state.cashAvailable }
-                placeOrder = { this.placeOrder } />
+                placeOrder = { this.placeOrder }
+                positions = { this.state.positions }/>
               }
           </>}
         </> }
 
-      { this.state.currentView === 'portfolio' && <Portfolio
+      { this.state.currentView === 'quotes' && <Quotes lastDataCallReference = { this.state.historicData[0].time } /> }
+      { this.state.currentView === 'portfolio' && this.state.username && <Portfolio
           cashAvailable = { this.state.cashAvailable }
           positions = { this.state.positions }
           orders = { this.state.orders } /> }
@@ -211,9 +213,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-// updating portfolio //
-
-// on login, check user db against orders db to see if filled
-  // if so, update

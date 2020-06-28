@@ -102,6 +102,17 @@ module.exports = {
       });
   },
 
+  getOrders: (req, res) => {
+    models.dbGetOrders()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.log('ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
   processOrders: (req, res) => {
     models.processOrders()
       .then(() => {

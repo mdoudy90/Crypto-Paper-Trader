@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const OrderForm = ({ symbol = 'BTC', currentPrice, cashAvailable, placeOrder }) => {
+const OrderForm = ({ symbol = 'BTC', currentPrice, cashAvailable, placeOrder, positions }) => {
   const [ action, setAction ] = useState('buy');
   const [ quantity, setQuantity ] = useState(0);
   const [ price = currentPrice, setPrice ] = useState();
@@ -10,6 +10,10 @@ const OrderForm = ({ symbol = 'BTC', currentPrice, cashAvailable, placeOrder }) 
     e.preventDefault();
     if (total > cashAvailable) {
       alert('Not enough cash');
+      return;
+    }
+    if (action === 'sell' && (!positions[symbol] || positions[symbol] < quantity) ) {
+      alert('Sell order qty is more than portfolio qty');
       return;
     }
     placeOrder({ action, symbol, quantity, price, timePlaced: Date() }, total);
