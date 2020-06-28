@@ -91,6 +91,25 @@ module.exports = {
       });
   },
 
+  getAllUsers: (req, res) => {
+    models.dbGetAllUsers()
+      .then((data) => {
+        return data.map((user) => {
+          return {
+            username: user.username,
+            cashAvailable: user.cashAvailable,
+            positions: user.positions
+          };
+        })
+      }).then((filteredData) => {
+        res.send(filteredData);
+      })
+      .catch((err) => {
+        console.log('DB GET ERROR: ', err);
+        res.sendStatus(404);
+      });
+  },
+
   addOrder: (req, res) => {
     models.dbAddOrder(req.body)
       .then(() => {

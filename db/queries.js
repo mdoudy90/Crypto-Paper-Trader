@@ -28,6 +28,9 @@ module.exports = {
   updateUserData: (token, data) => {
     return User.findOneAndUpdate({ token }, data);
   },
+  getAllUsers: () => {
+    return User.find().exec();
+  },
   addOrder: (orderData) => {
     return new Order(orderData).save();
   },

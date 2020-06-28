@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
+import Leaderboard from './components/Leaderboard.jsx';
 import Portfolio from './components/Portfolio.jsx';
 import Quotes from './components/Quotes.jsx';
 import SignUp from './components/SignUp.jsx';
@@ -38,6 +39,7 @@ class App extends React.Component {
     this.switchView = this.switchView.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.updateUserOrders = this.updateUserOrders.bind(this);
+    this.getAllUsers = this.getAllUsers.bind(this);
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
@@ -168,6 +170,16 @@ class App extends React.Component {
     });
   }
 
+  //! Need to refactor to backend logic, all users should not be present in state
+  getAllUsers() {
+    axios.get('/users')
+    .then(({data}) => {
+      this.setState({ users: data });
+    }).catch((err) => {
+      console.log('USERS FETCH UNSUCCESSFUL');
+    });
+  }
+
   switchView(view) {
     this.setState({ currentView: view });
   }
@@ -175,6 +187,7 @@ class App extends React.Component {
   componentDidMount() {
     this.fetchAllData();
     this.processOrders();
+    this.getAllUsers();
   }
 
   render() {
@@ -201,6 +214,8 @@ class App extends React.Component {
         </> }
 
       { this.state.currentView === 'quotes' && <Quotes lastDataCallReference = { this.state.historicData[0].time } /> }
+      { this.state.currentView === 'leaderboard' && this.state.users && <Leaderboard
+          users = { this.state.users }  /> }
       { this.state.currentView === 'portfolio' && this.state.username && <Portfolio
           cashAvailable = { this.state.cashAvailable }
           positions = { this.state.positions }

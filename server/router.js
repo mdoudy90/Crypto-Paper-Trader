@@ -11,6 +11,7 @@ router.post('/users/logout/:token', controllers.logoutUser);
 router.post('/users/data/:token', controllers.updateUserData);
 router.get('/users/data/:token', controllers.getUserData);
 router.post('/users/orders/:token', controllers.updateUserOrders);
+router.get('/users', controllers.getAllUsers);
 
 router.post('/orders', controllers.addOrder);
 router.get('/orders', controllers.getOrders);
