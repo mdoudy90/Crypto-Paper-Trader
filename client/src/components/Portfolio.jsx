@@ -47,42 +47,50 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
         </tr>
       </table>
 
-      <h4>POSITIONS</h4>
-      <table>
-        <tr>
-          <th>SYMBOL</th>
-          <th>QTY</th>
-          <th>VALUE</th>
-        </tr>
-      { Object.entries(positionsObj).map((position) => {
-        return <tr>
-                <td>{ position[0] }</td>
-                <td>{ position[1]['qty'] }</td>
-                <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value']) }</td>
-              </tr>
-      }) }
-      </table>
-
-      <h4>OPEN ORDERS</h4>
+      { Object.keys(positionsObj).length ?
+      <>
+        <h4>POSITIONS</h4>
         <table>
           <tr>
-            <th>ACTION</th>
             <th>SYMBOL</th>
             <th>QTY</th>
-            <th>PRICE</th>
-            <th>TIME PLACED</th>
+            <th>VALUE</th>
           </tr>
-          { orders.map((order) => {
-            if (!order.filled) {
-            return (<tr>
-              <td>{ order.action }</td>
-              <td>{ order.symbol }</td>
-              <td>{ order.quantity }</td>
-              <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(order.price) }</td>
-              <td>{ moment(order.timePlaced).format('MMMM Do YYYY, h:mm:ss a') }</td>
-            </tr>)};
+        { Object.entries(positionsObj).map((position) => {
+          return <tr>
+                  <td>{ position[0] }</td>
+                  <td>{ position[1]['qty'] }</td>
+                  <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(position[1]['value']) }</td>
+                </tr>
         }) }
         </table>
+      </> : null
+      }
+
+      { orders.length ?
+      <>
+        <h4>OPEN ORDERS</h4>
+          <table>
+            <tr>
+              <th>ACTION</th>
+              <th>SYMBOL</th>
+              <th>QTY</th>
+              <th>PRICE</th>
+              <th>TIME PLACED</th>
+            </tr>
+            { orders.map((order) => {
+              if (!order.filled) {
+              return (<tr>
+                <td>{ order.action }</td>
+                <td>{ order.symbol }</td>
+                <td>{ order.quantity }</td>
+                <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(order.price) }</td>
+                <td>{ moment(order.timePlaced).format('MMMM Do YYYY, h:mm:ss a') }</td>
+              </tr>)};
+          }) }
+          </table>
+      </> : null
+      }
       </div>
   );
 }
