@@ -123,13 +123,24 @@ body #root {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
+  justify-items: right;
 }
 
 .live-toggle-container p,
-.live-toggle-container label {
+.live-toggle-container div {
   text-align: right;
   font-size: 14px;
   margin: 0;
+}
+
+.live-toggle {
+  display: grid;
+  width: 90px;
+  grid-template-columns: 60px 26px;
+}
+
+.live-toggle p {
+  margin: 0 5px;
 }
 
 .stats-container {
@@ -154,6 +165,60 @@ body #root {
 
 .positive {
   color: rgb(32, 192, 11);
+}
+
+.toggle-switch,
+.toggle-switch-active {
+  border-radius: 30px;
+  width: 25px;
+  height: 14px;
+  margin: 5px auto;
+}
+
+.toggle-switch {
+  border: 1px solid rgb(209, 209, 209);
+  background-color: rgb(209, 209, 209);
+}
+
+.toggle-switch-active {
+  border: 1px solid rgb(39, 0, 131);
+  background-color: rgb(39, 0, 131);
+}
+
+.slider,
+.slider-active {
+  border-radius: 30px;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.slider {
+  float: left;
+  border: 1px solid rgb(209, 209, 209);
+}
+
+.slider-active {
+  float: right;
+  border: 1px solid rgb(39, 0, 131);
+}
+
+.chart-type-toggle,
+.volume-type-toggle {
+  display: grid;
+  width: 90px;
+  grid-template-columns: 30px 30px 30px;
+}
+
+.chart-type-toggle img,
+.volume-type-toggle img {
+  margin: 0 auto;
+}
+
+.chart-type-toggle img:first-of-type {
+  height: 22px;
 }
 
 /* ~ FORMS --------------------------------------------------- */

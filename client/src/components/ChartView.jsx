@@ -48,11 +48,26 @@ class ChartView extends React.Component {
 
 		return (
 			<div className = 'chart-view-container'>
-				<label>LINE <input type="checkbox" onChange = { () => { this.setState({ showCandleView: !this.state.showCandleView }) } } /> CANDLES
-					</label>
-					<br></br>
-				<label>VOLUME <input type="checkbox" onChange = { () => { this.setState({ showVolume: !this.state.showVolume }) } } />
-				</label>
+
+					<div className = 'chart-type-toggle'>
+						<img src = './assets/linegraph-icon.png' ></img>
+						<div className = { this.state.showCandleView ? 'toggle-switch-active' : 'toggle-switch' } >
+							<div
+								className = { this.state.showCandleView ? 'slider-active' : 'slider' }
+								onClick = { () => this.setState({ showCandleView: !this.state.showCandleView }) } ></div>
+						</div>
+						<img src = './assets/candlestick-icon.png' ></img>
+					</div>
+
+					<div className = 'volume-type-toggle'>
+						<img src = './assets/volume-unselected-icon.png' ></img>
+						<div className = { this.state.showVolume ? 'toggle-switch-active' : 'toggle-switch' } >
+							<div
+								className = { this.state.showVolume ? 'slider-active' : 'slider' }
+								onClick = { () => { this.setState({ showVolume: !this.state.showVolume }) } } ></div>
+						</div>
+						<img src = './assets/volume-selected-icon.png' ></img>
+					</div>
 
 				<ChartCanvas
 					height={500}

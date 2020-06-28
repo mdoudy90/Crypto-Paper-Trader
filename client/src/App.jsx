@@ -104,6 +104,7 @@ class App extends React.Component {
         this.setState({ token: data, currentView: 'portfolio' });
         this.getUserData();
         this.updateUserOrders();
+        this.getAllUsers();
       }).catch((err) => {
         alert('Username and/or password does not match');
       });

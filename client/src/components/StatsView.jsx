@@ -10,11 +10,19 @@ const StatsView = ({ data, controlLiveDataStream }) => {
         <img src={`https://www.cryptocompare.com${data.DISPLAY.IMAGEURL}`}></img>
         <div className='live-toggle-container'>
           <p>LAST UPDATE: { moment().calendar(new Date(data.RAW.LASTUPDATE * 1000)).toUpperCase() }</p>
-          <label>LIVE <input checked = {isLive ? true : false} type="checkbox" onChange = { () => {
-                    toggleIsLive(!isLive);
-                    controlLiveDataStream(!isLive);
-                  } } />
-          </label>
+
+          <div className = 'live-toggle'>
+						<p>LIVE</p>
+						<div className = { isLive ? 'toggle-switch-active' : 'toggle-switch' } >
+							<div
+								className = { isLive ? 'slider-active' : 'slider' }
+								onClick = { () => {
+                  toggleIsLive(!isLive);
+                  controlLiveDataStream(!isLive);
+                } } ></div>
+						</div>
+					</div>
+
         </div>
       </div>
       <div className = 'stats-container'>
