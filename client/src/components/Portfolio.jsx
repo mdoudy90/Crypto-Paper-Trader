@@ -5,6 +5,7 @@ import moment from 'moment';
 const Portfolio = ({ cash, buyingPower, positions, orders }) => {
   const [ portfolioValue, setPortfolioValue ] = useState(cash);
   const [ positionsObj, setPositionsObj ] = useState({});
+  const [ openOrders, setOpenOrders ] = useState([]);
 
   const calculatePortfolioValue = () => {
     let symbols = Object.keys(positions).join(',');
@@ -27,6 +28,8 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
 
   useEffect(() => {
     Object.keys(positions).length ? calculatePortfolioValue() : null;
+    setOpenOrders(orders.filter((order) => !order.filled));
+
   },[positions]);
 
   return (
@@ -67,7 +70,7 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
       </> : null
       }
 
-      { orders.length ?
+      { openOrders.length ?
       <>
         <h4>OPEN ORDERS</h4>
           <table>
@@ -78,15 +81,14 @@ const Portfolio = ({ cash, buyingPower, positions, orders }) => {
               <th>PRICE</th>
               <th>TIME PLACED</th>
             </tr>
-            { orders.map((order) => {
-              if (!order.filled) {
+            { openOrders.map((order) => {
               return (<tr>
                 <td>{ order.action }</td>
                 <td>{ order.symbol }</td>
                 <td>{ order.quantity }</td>
                 <td>{ Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(order.price) }</td>
                 <td>{ moment(order.timePlaced).format('MMMM Do YYYY, h:mm:ss a') }</td>
-              </tr>)};
+              </tr>)
           }) }
           </table>
       </> : null

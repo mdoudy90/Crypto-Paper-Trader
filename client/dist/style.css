@@ -136,6 +136,7 @@ body #root {
 .order-portfolio-container {
   display: grid;
   grid-template-columns: 350px 1fr;
+  padding-bottom: 10px;
 }
 
 .query-selector-container {
