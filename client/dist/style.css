@@ -106,6 +106,10 @@ body #root {
   color: rgb(209, 209, 209);
 }
 
+.stats-view-container {
+  margin-top: 10px;
+}
+
 .chart-view-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
