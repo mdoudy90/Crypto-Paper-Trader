@@ -9,7 +9,7 @@ Paper trading app that allows users to live track their favorited cryptocurrenci
 * Submit buy/sell orders
 
 ##### Quotes
-* Displays all users' open unfilled orders and filled orders
+* Displays all users' open unfilled and filled orders
 
 ##### Leaderboard
 * Displays top performing users, their portfolio value, and their positions
