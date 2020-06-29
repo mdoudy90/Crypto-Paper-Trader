@@ -72,7 +72,7 @@ module.exports = {
 
       filledOrdersArray.forEach((order) => {
         queries.updateOrder(order).then(() => {
-          console.log(`ORDER ${order._id} FILLED`);
+          console.log(`>>> ORDER ${order._id} FILLED`);
         }).catch((err) => {
           console.log('ORDER UPDATE ERROR: ', err);
         });

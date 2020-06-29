@@ -156,6 +156,11 @@ class App extends React.Component {
             console.log('Order placement failed');
           });
       })
+      .then (this.processOrders)
+      .then(this.updateUserOrders)
+      .catch((err) => {
+        console.log('Order placement unsuccessful')
+      });
   }
 
   processOrders() {
