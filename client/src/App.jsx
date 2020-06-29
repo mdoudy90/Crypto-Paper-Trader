@@ -141,8 +141,12 @@ class App extends React.Component {
     const uidgen = new UIDGenerator(256);
     uidgen.generate()
       .then((orderID) => {
+        let buyingPower = this.state.buyingPower;
+        if (order.action === 'buy') {
+          buyingPower = this.state.buyingPower - total;
+        }
         order = { ...order, orderID, filled: false }
-        this.updateUserData({buyingPower: this.state.buyingPower - total, orders: [ ...this.state.orders, order ]});
+        this.updateUserData({buyingPower, orders: [ ...this.state.orders, order ]});
       })
       .then(() => {
         axios.post('/orders', { ...order, username: this.state.username })

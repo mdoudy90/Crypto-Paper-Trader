@@ -8,7 +8,7 @@ const OrderForm = ({ symbol = 'BTC', currentPrice, buyingPower, placeOrder, posi
   let total = quantity * price;
   const handleClick = (e) => {
     e.preventDefault();
-    if (total > buyingPower) {
+    if (action === 'buy' && total > buyingPower) {
       alert('Not enough buying power');
       return;
     }
