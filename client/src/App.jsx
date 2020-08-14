@@ -8,7 +8,7 @@ import Leaderboard from './components/Leaderboard.jsx';
 import Portfolio from './components/Portfolio.jsx';
 import Quotes from './components/Quotes.jsx';
 import SignUp from './components/SignUp.jsx';
-import Login from './components/Login.jsx';
+import Login from './components/Login';
 import OrderForm from './components/OrderForm.jsx';
 import axios from 'axios';
 
