@@ -50,10 +50,6 @@ tr:hover {
   background-color: rgb(240, 240, 240);
 }
 
-table tr:first-child:hover {
-  background-color: rgb(31, 0, 103);
-}
-
 table tr:last-child td {
   border-bottom: none;
 }
