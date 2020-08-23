@@ -4,11 +4,11 @@ import Header from './components/Header.jsx';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
-import Leaderboard from './components/Leaderboard.jsx';
+import {Leaderboard} from './components/Leaderboard';
 import Portfolio from './components/Portfolio.jsx';
 import Quotes from './components/Quotes.jsx';
-import SignUp from './components/SignUp.jsx';
-import Login from './components/Login.jsx';
+import {SignUp} from './components/SignUp';
+import {Login} from './components/Login';
 import OrderForm from './components/OrderForm.jsx';
 import axios from 'axios';
 
