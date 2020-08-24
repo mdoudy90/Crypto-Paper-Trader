@@ -2,7 +2,7 @@ import React from 'react';
 import UIDGenerator from 'uid-generator';
 import { Header } from './components/Header';
 import ChartView from './components/ChartView.jsx';
-import QuerySelector from './components/QuerySelector.jsx';
+import { QuerySelector } from './components/QuerySelector';
 import StatsView from './components/StatsView.jsx';
 import { Leaderboard } from './components/Leaderboard';
 import Portfolio from './components/Portfolio.jsx';

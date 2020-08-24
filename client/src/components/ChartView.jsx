@@ -1,5 +1,5 @@
 import React from "react";
-import QuerySelector from './QuerySelector.jsx';
+import { QuerySelector } from './QuerySelector';
 
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
