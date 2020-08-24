@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import UIDGenerator from 'uid-generator';
-import { Header } from './components/Header';
 import ChartView from './components/ChartView';
-import { QuerySelector } from './components/QuerySelector';
+import { Header } from './components/Header';
 import { StatsView } from './components/StatsView';
 import { Leaderboard } from './components/Leaderboard';
 import { Portfolio } from './components/Portfolio';
@@ -10,26 +10,25 @@ import { Quotes } from './components/Quotes';
 import { SignUp } from './components/SignUp';
 import { Login } from './components/Login';
 import { OrderForm } from './components/OrderForm';
-import axios from 'axios';
 
-export const App = () => {
-  const [historicData, setHistoricData] = useState([]);
-  const [currentData, setCurrentData] = useState({});
-  const [currentSymbol, setCurrentSymbol] = useState('BTC');
-  const [currentTimeScale, setCurrentTimeScale] = useState('day');
-  const [liveIntervalID, setLiveIntervalID] = useState('');
-  const [currentView, setCurrentView] = useState('charts');
-  const [users, setUsers] = useState([]);
+export const App: React.FC = () => {
+  const [historicData, setHistoricData] = useState<{ [key: string]: any }[]>([]);
+  const [currentData, setCurrentData] = useState<{ [key: string]: any }>({});
+  const [currentSymbol, setCurrentSymbol] = useState<string>('BTC');
+  const [currentTimeScale, setCurrentTimeScale] = useState<string>('day');
+  const [liveIntervalID, setLiveIntervalID] = useState<NodeJS.Timeout | null>(null);
+  const [currentView, setCurrentView] = useState<string>('charts');
+  const [users, setUsers] = useState<any>([]);
+  const [token, setToken] = useState<string>('');
+  const [username, setUsername] = useState<string | null | undefined>(null);
+  const [positions, setPositions] = useState<{ [key: string]: number }>({});
+  const [orders, setOrders] = useState<{ [key: string]: any }[]>([]);
+  const [cash, setCash] = useState<number>(0);
+  const [buyingPower, setBuyingPower] = useState<number>(0);
 
-  const [token, setToken] = useState('');
-  const [username, setUsername] = useState(null);
-  const [positions, setPositions] = useState({});
-  const [orders, setOrders] = useState([]);
-  const [cash, setCash] = useState(0.0);
-  const [buyingPower, setBuyingPower] = useState(0.0);
-  const [portfolioValue, setPortfolioValue] = useState(null);
-
-  const fetchCurrentData = (symbol = 'BTC', toCurrency = 'USD') => {
+  const fetchCurrentData = (symbol, toCurrency) => {
+    symbol = symbol || 'BTC';
+    toCurrency = toCurrency || 'USD';
     axios
       .get(`/currentData/${symbol}`)
       .then(({ data }) =>
@@ -40,7 +39,9 @@ export const App = () => {
       });
   };
 
-  const fetchHistoricData = (symbol = 'BTC', timeScale = 'day') => {
+  const fetchHistoricData = (symbol, timeScale) => {
+    symbol = symbol || 'BTC';
+    timeScale = timeScale || 'day';
     axios
       .get(`/historicData/${symbol}/${timeScale}`)
       .then(({ data }) => {
@@ -67,12 +68,12 @@ export const App = () => {
   const controlLiveDataStream = (switchOn) => {
     if (switchOn) {
       let liveIntervalID = setInterval(() => {
-        fetchAllData(currentSymbol, currentTimeScale);
+        fetchAllData(currentSymbol, currentTimeScale, null);
       }, 5000);
       setLiveIntervalID(liveIntervalID);
     } else {
       clearInterval(liveIntervalID);
-      setLiveIntervalID('');
+      setLiveIntervalID(null);
     }
   };
 
@@ -113,9 +114,8 @@ export const App = () => {
         setUsername(null);
         setPositions({});
         setOrders([]);
-        setCash(null);
-        setBuyingPower(null);
-        setPortfolioValue(null);
+        setCash(0);
+        setBuyingPower(0);
         setCurrentView('charts');
       })
       .catch((err) => {
@@ -207,7 +207,6 @@ export const App = () => {
       });
   };
 
-  //! Need to refactor to backend logic, all users should not be present in state
   const getAllUsers = () => {
     axios
       .get('/users')
@@ -218,7 +217,7 @@ export const App = () => {
   };
 
   useEffect(() => {
-    fetchAllData();
+    fetchAllData(null, null, null);
     processOrders();
     getAllUsers();
   }, []);
@@ -231,23 +230,24 @@ export const App = () => {
           {!historicData.length || !Object.keys(currentData).length ? (
             <div>Loading...</div>
           ) : (
-            <>
-              <StatsView data={currentData} controlLiveDataStream={controlLiveDataStream} />
-              <ChartView data={historicData} currentTimeScale={currentTimeScale} fetchAllData={fetchAllData} />
-              {token && (
-                <div className='order-portfolio-container'>
-                  <OrderForm
-                    symbol={currentSymbol}
-                    currentPrice={currentData.RAW.PRICE}
-                    buyingPower={buyingPower}
-                    placeOrder={placeOrder}
-                    positions={positions}
-                  />
-                  <Portfolio cash={cash} buyingPower={buyingPower} positions={positions} orders={orders} />
-                </div>
-              )}
-            </>
-          )}
+              <>
+                <StatsView data={currentData} controlLiveDataStream={controlLiveDataStream} />
+                {/* @ts-ignore  */}
+                <ChartView data={historicData} currentTimeScale={currentTimeScale} fetchAllData={fetchAllData} />
+                {token && (
+                  <div className='order-portfolio-container'>
+                    <OrderForm
+                      symbol={currentSymbol}
+                      currentPrice={currentData.RAW.PRICE}
+                      buyingPower={buyingPower}
+                      placeOrder={placeOrder}
+                      positions={positions}
+                    />
+                    <Portfolio cash={cash} buyingPower={buyingPower} positions={positions} orders={orders} />
+                  </div>
+                )}
+              </>
+            )}
         </>
       )}
 
