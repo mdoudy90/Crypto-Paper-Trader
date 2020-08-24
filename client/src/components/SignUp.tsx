@@ -11,7 +11,7 @@ export const SignUp: React.FC<Props> = ({ addNewUser }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     addNewUser({ firstName, lastName, email, username, password });
   }
@@ -24,7 +24,7 @@ export const SignUp: React.FC<Props> = ({ addNewUser }) => {
       <input value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)}></input>
       <input value={username} placeholder={'Username'} onChange={(e) => setUsername(e.target.value)}></input>
       <input value={password} placeholder={'Password'} onChange={(e) => setPassword(e.target.value)}></input>
-      <button onClick={handleButtonClick}>Submit</button>
+      <button onClick={handleClick}>Submit</button>
     </form>
   );
 }

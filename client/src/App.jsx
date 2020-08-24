@@ -9,7 +9,7 @@ import Portfolio from './components/Portfolio.jsx';
 import Quotes from './components/Quotes.jsx';
 import {SignUp} from './components/SignUp';
 import {Login} from './components/Login';
-import OrderForm from './components/OrderForm.jsx';
+import {OrderForm} from './components/OrderForm';
 import axios from 'axios';
 
 class App extends React.Component {
