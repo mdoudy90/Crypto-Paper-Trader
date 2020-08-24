@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { calculatePortfolioValues } from '../helpers/calculatePortfolioValues'
+import { calculateLeaderboardPortfolios } from '../helpers/calculateLeaderboardPortfolios'
 
 interface User {
   username: string,
@@ -17,7 +17,7 @@ export const Leaderboard: React.FC<Props> = ({ users }) => {
 
   useEffect(() => {
     if (users.length) {
-      calculatePortfolioValues(users)
+      calculateLeaderboardPortfolios(users)
         .then((newBoard) => {
           setBoard(newBoard)
         });
