@@ -1,7 +1,7 @@
 import React from 'react';
 import UIDGenerator from 'uid-generator';
 import { Header } from './components/Header';
-import ChartView from './components/ChartView.jsx';
+import ChartView from './components/ChartView';
 import { QuerySelector } from './components/QuerySelector';
 import { StatsView } from './components/StatsView';
 import { Leaderboard } from './components/Leaderboard';
