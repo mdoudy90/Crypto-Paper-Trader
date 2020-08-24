@@ -3,7 +3,7 @@ import UIDGenerator from 'uid-generator';
 import { Header } from './components/Header';
 import ChartView from './components/ChartView.jsx';
 import { QuerySelector } from './components/QuerySelector';
-import StatsView from './components/StatsView.jsx';
+import { StatsView } from './components/StatsView';
 import { Leaderboard } from './components/Leaderboard';
 import Portfolio from './components/Portfolio.jsx';
 import { Quotes } from './components/Quotes';
