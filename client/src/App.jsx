@@ -1,15 +1,15 @@
 import React from 'react';
 import UIDGenerator from 'uid-generator';
-import Header from './components/Header.jsx';
+import { Header } from './components/Header';
 import ChartView from './components/ChartView.jsx';
 import QuerySelector from './components/QuerySelector.jsx';
 import StatsView from './components/StatsView.jsx';
-import {Leaderboard} from './components/Leaderboard';
+import { Leaderboard } from './components/Leaderboard';
 import Portfolio from './components/Portfolio.jsx';
-import Quotes from './components/Quotes.jsx';
-import {SignUp} from './components/SignUp';
-import {Login} from './components/Login';
-import OrderForm from './components/OrderForm.jsx';
+import { Quotes } from './components/Quotes';
+import { SignUp } from './components/SignUp';
+import { Login } from './components/Login';
+import { OrderForm } from './components/OrderForm';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -22,11 +22,11 @@ class App extends React.Component {
       currentTimeScale: 'day',
       liveIntervalID: '',
       currentView: 'charts',
-      buyingPower: 0.00,
-      cash: 0.00,
+      buyingPower: 0.0,
+      cash: 0.0,
       positions: {},
       orders: [],
-    }
+    };
     this.fetchCurrentData = this.fetchCurrentData.bind(this);
     this.fetchHistoricData = this.fetchHistoricData.bind(this);
     this.fetchAllData = this.fetchAllData.bind(this);
@@ -44,31 +44,35 @@ class App extends React.Component {
   }
 
   fetchCurrentData(symbol = 'BTC', toCurrency = 'USD') {
-    axios.get(`/currentData/${symbol}`)
-    .then(({data}) => {
-      this.setState({ currentData: { DISPLAY: data.DISPLAY[symbol][toCurrency], RAW: data.RAW[symbol][toCurrency] } });
-    })
-    .catch((err) => {
-      console.log('FETCH DATA ERROR');
-    })
+    axios
+      .get(`/currentData/${symbol}`)
+      .then(({ data }) => {
+        this.setState({
+          currentData: { DISPLAY: data.DISPLAY[symbol][toCurrency], RAW: data.RAW[symbol][toCurrency] },
+        });
+      })
+      .catch((err) => {
+        console.log('FETCH DATA ERROR');
+      });
   }
 
   fetchHistoricData(symbol = 'BTC', timeScale = 'day') {
-    axios.get(`/historicData/${symbol}/${timeScale}`)
-    .then(({data}) => {
-      data = data.Data.Data;
-      return data.map((row) => {
-        row.date = new Date(row.time * 1000);
-        row.volume = row.volumeto;
-        return row;
+    axios
+      .get(`/historicData/${symbol}/${timeScale}`)
+      .then(({ data }) => {
+        data = data.Data.Data;
+        return data.map((row) => {
+          row.date = new Date(row.time * 1000);
+          row.volume = row.volumeto;
+          return row;
+        });
       })
-    })
-    .then((historicData) => {
-      this.setState({ historicData });
-    })
-    .catch((err) => {
-      console.log('FETCH DATA ERROR');
-    })
+      .then((historicData) => {
+        this.setState({ historicData });
+      })
+      .catch((err) => {
+        console.log('FETCH DATA ERROR');
+      });
   }
 
   fetchAllData(symbol, timeScale, toCurrency) {
@@ -79,9 +83,9 @@ class App extends React.Component {
 
   controlLiveDataStream(switchOn) {
     if (switchOn) {
-      let liveIntervalID = setInterval( () => {
-        this.fetchAllData(this.state.currentSymbol, this.state.currentTimeScale)
-       } , 5000);
+      let liveIntervalID = setInterval(() => {
+        this.fetchAllData(this.state.currentSymbol, this.state.currentTimeScale);
+      }, 5000);
       this.setState({ liveIntervalID });
     } else {
       clearInterval(this.state.liveIntervalID);
@@ -90,105 +94,133 @@ class App extends React.Component {
   }
 
   addNewUser(newUserData) {
-    axios.post('/users', newUserData)
+    axios
+      .post('/users', newUserData)
       .then(() => {
         this.loginUser({ username: newUserData.username, password: newUserData.password });
-      }).catch((err) => {
+      })
+      .catch((err) => {
         alert('Username already taken');
       });
   }
 
   loginUser(userData) {
-    axios.post('/users/login', userData)
-      .then(({data}) => {
+    axios
+      .post('/users/login', userData)
+      .then(({ data }) => {
         this.setState({ token: data, currentView: 'portfolio' });
         this.getUserData();
         this.updateUserOrders();
         this.getAllUsers();
-      }).catch((err) => {
+      })
+      .catch((err) => {
         alert('Username and/or password does not match');
       });
   }
 
   logoutUser() {
-    axios.post(`/users/logout/${this.state.token}`)
+    axios
+      .post(`/users/logout/${this.state.token}`)
       .then(() => {
-        this.setState({ token: '', username: null, positions: {}, orders: [], cash: null, buyingPower: null, portfolioValue: null, currentView: 'charts' });
-      }).catch((err) => {
+        this.setState({
+          token: '',
+          username: null,
+          positions: {},
+          orders: [],
+          cash: null,
+          buyingPower: null,
+          portfolioValue: null,
+          currentView: 'charts',
+        });
+      })
+      .catch((err) => {
         console.log('Logout unsuccessful');
       });
   }
 
   getUserData() {
-    axios.get(`/users/data/${this.state.token}`)
-      .then(({data}) => {
+    axios
+      .get(`/users/data/${this.state.token}`)
+      .then(({ data }) => {
         this.setState(data);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log('User data fetch unsuccessful');
       });
   }
 
   updateUserData(newData) {
-    axios.post(`/users/data/${this.state.token}`, newData)
+    axios
+      .post(`/users/data/${this.state.token}`, newData)
       .then(() => {
         this.getUserData();
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log('User data update failed');
       });
   }
 
   placeOrder(order, total) {
     const uidgen = new UIDGenerator(256);
-    uidgen.generate()
+    uidgen
+      .generate()
       .then((orderID) => {
         let buyingPower = this.state.buyingPower;
         if (order.action === 'buy') {
           buyingPower = this.state.buyingPower - total;
         }
-        order = { ...order, orderID, filled: false }
-        this.updateUserData({buyingPower, orders: [ ...this.state.orders, order ]});
+        order = { ...order, orderID, filled: false };
+        this.updateUserData({ buyingPower, orders: [...this.state.orders, order] });
       })
       .then(() => {
-        axios.post('/orders', { ...order, username: this.state.username })
+        axios
+          .post('/orders', { ...order, username: this.state.username })
           .then(() => {
             console.log('Order placed');
-          }).catch((err) => {
+          })
+          .catch((err) => {
             console.log('Order placement failed');
           });
       })
-      .then (this.processOrders)
+      .then(this.processOrders)
       .then(this.updateUserOrders)
       .catch((err) => {
-        console.log('Order placement unsuccessful')
+        console.log('Order placement unsuccessful');
       });
   }
 
   processOrders() {
-    axios.post('/orders/process')
+    axios
+      .post('/orders/process')
       .then(() => {
         console.log('Orders processed');
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log('Orders processing failed');
       });
   }
 
   updateUserOrders() {
-    axios.post(`/users/orders/${this.state.token}`)
-    .then(({data}) => {
-      this.setState(data);
-    }).catch((err) => {
-      console.log('NO UNFILLED USER ORDERS');
-    });
+    axios
+      .post(`/users/orders/${this.state.token}`)
+      .then(({ data }) => {
+        this.setState(data);
+      })
+      .catch((err) => {
+        console.log('NO UNFILLED USER ORDERS');
+      });
   }
 
   //! Need to refactor to backend logic, all users should not be present in state
   getAllUsers() {
-    axios.get('/users')
-    .then(({data}) => {
-      this.setState({ users: data });
-    }).catch((err) => {
-      console.log('USERS FETCH UNSUCCESSFUL');
-    });
+    axios
+      .get('/users')
+      .then(({ data }) => {
+        this.setState({ users: data });
+      })
+      .catch((err) => {
+        console.log('USERS FETCH UNSUCCESSFUL');
+      });
   }
 
   switchView(view) {
@@ -204,45 +236,53 @@ class App extends React.Component {
   render() {
     return (
       <>
-      <Header switchView = { this.switchView } isLoggedIn = { !!this.state.token } logoutUser = { this.logoutUser } />
-      { this.state.currentView === 'charts' &&
-        <>
-        {!this.state.historicData.length || !Object.keys(this.state.currentData).length ?
-          <div>Loading...</div> :
+        <Header switchView={this.switchView} isLoggedIn={!!this.state.token} logoutUser={this.logoutUser} />
+        {this.state.currentView === 'charts' && (
           <>
-            <StatsView data={ this.state.currentData} controlLiveDataStream={ this.controlLiveDataStream } />
-            <ChartView
-              data={ this.state.historicData }
-              currentTimeScale={ this.state.currentTimeScale }
-              fetchAllData = { this.fetchAllData } />
-            { this.state.token &&
-              <div className = 'order-portfolio-container'>
-                <OrderForm
-                  symbol = { this.state.currentSymbol }
-                  currentPrice = { this.state.currentData.RAW.PRICE }
-                  buyingPower = { this.state.buyingPower }
-                  placeOrder = { this.placeOrder }
-                  positions = { this.state.positions }/>
-                <Portfolio
-                  cash = { this.state.cash }
-                  buyingPower = { this.state.buyingPower }
-                  positions = { this.state.positions }
-                  orders = { this.state.orders } />
-              </div>
-              }
-          </>}
-        </> }
+            {!this.state.historicData.length || !Object.keys(this.state.currentData).length ? (
+              <div>Loading...</div>
+            ) : (
+              <>
+                <StatsView data={this.state.currentData} controlLiveDataStream={this.controlLiveDataStream} />
+                <ChartView
+                  data={this.state.historicData}
+                  currentTimeScale={this.state.currentTimeScale}
+                  fetchAllData={this.fetchAllData}
+                />
+                {this.state.token && (
+                  <div className='order-portfolio-container'>
+                    <OrderForm
+                      symbol={this.state.currentSymbol}
+                      currentPrice={this.state.currentData.RAW.PRICE}
+                      buyingPower={this.state.buyingPower}
+                      placeOrder={this.placeOrder}
+                      positions={this.state.positions}
+                    />
+                    <Portfolio
+                      cash={this.state.cash}
+                      buyingPower={this.state.buyingPower}
+                      positions={this.state.positions}
+                      orders={this.state.orders}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
 
-      { this.state.currentView === 'quotes' && <Quotes lastDataCallReference = { this.state.historicData[0].time } /> }
-      { this.state.currentView === 'leaderboard' && this.state.users && <Leaderboard
-          users = { this.state.users }  /> }
-      { this.state.currentView === 'portfolio' && this.state.username && <Portfolio
-          cash = { this.state.cash }
-          buyingPower = { this.state.buyingPower }
-          positions = { this.state.positions }
-          orders = { this.state.orders } /> }
-      { this.state.currentView === 'signup' && <SignUp addNewUser = { this.addNewUser }/> }
-      { this.state.currentView === 'login' && <Login loginUser = { this.loginUser } switchView = { this.switchView }/> }
+        {this.state.currentView === 'quotes' && <Quotes lastDataCallReference={this.state.historicData[0].time} />}
+        {this.state.currentView === 'leaderboard' && this.state.users && <Leaderboard users={this.state.users} />}
+        {this.state.currentView === 'portfolio' && this.state.username && (
+          <Portfolio
+            cash={this.state.cash}
+            buyingPower={this.state.buyingPower}
+            positions={this.state.positions}
+            orders={this.state.orders}
+          />
+        )}
+        {this.state.currentView === 'signup' && <SignUp addNewUser={this.addNewUser} />}
+        {this.state.currentView === 'login' && <Login loginUser={this.loginUser} switchView={this.switchView} />}
       </>
     );
   }
