@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-export const calculatePortfolioValues = (users) => {
+interface User {
+  username: string,
+  cash: number,
+  buyingPower: number,
+  positions: { [key: string]: number } | undefined | null
+}
+
+export const calculateLeaderboardPortfolios = (users: User[] | undefined | null): Promise<any> => {
   let newBoard = [];
   let symbols = {};
 

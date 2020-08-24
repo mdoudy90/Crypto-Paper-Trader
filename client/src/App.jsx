@@ -5,7 +5,7 @@ import ChartView from './components/ChartView.jsx';
 import { QuerySelector } from './components/QuerySelector';
 import { StatsView } from './components/StatsView';
 import { Leaderboard } from './components/Leaderboard';
-import Portfolio from './components/Portfolio.jsx';
+import { Portfolio } from './components/Portfolio';
 import { Quotes } from './components/Quotes';
 import { SignUp } from './components/SignUp';
 import { Login } from './components/Login';
