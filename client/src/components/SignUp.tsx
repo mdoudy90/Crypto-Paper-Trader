@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface Props {
-  addNewUser: (ev) => void
+  addNewUser: (userInfo: {}) => void
 }
 
 export const SignUp: React.FC<Props> = ({ addNewUser }) => {

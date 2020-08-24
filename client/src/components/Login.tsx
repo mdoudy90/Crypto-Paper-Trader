@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 interface Props {
-  loginUser: (ev) => void,
-  switchView: (ev) => void
+  loginUser: (userInfo: {}) => void,
+  switchView: (view: string) => void
 }
 
 export const Login: React.FC<Props> = ({ loginUser, switchView }) => {
