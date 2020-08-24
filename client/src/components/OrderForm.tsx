@@ -5,7 +5,7 @@ interface Props {
   currentPrice: number,
   buyingPower: number,
   placeOrder: (obj: {}, total: number) => void,
-  positions: { symbol: number }
+  positions: { symbol: number } | {}
 }
 
 export const OrderForm: React.FC<Props> = ({ symbol = 'BTC', currentPrice, buyingPower, placeOrder, positions }) => {

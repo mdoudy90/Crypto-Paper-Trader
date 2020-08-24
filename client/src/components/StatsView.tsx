@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import moment from 'moment';
 
 interface Data {
-  DISPLAY: { [key: string]: string },
-  RAW: { [key: string]: string | number }
+  DISPLAY?: { [key: string]: string },
+  RAW?: { [key: string]: string | number }
 }
 
 interface Props {
