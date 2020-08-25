@@ -59,6 +59,9 @@ export const App: React.FC = () => {
   };
 
   const fetchAllData = (symbol, timeScale, toCurrency) => {
+    symbol = symbol || 'BTC';
+    timeScale = timeScale || 'day';
+    toCurrency = toCurrency || 'USD';
     setCurrentSymbol(symbol);
     setCurrentTimeScale(timeScale);
     fetchHistoricData(symbol, timeScale);
