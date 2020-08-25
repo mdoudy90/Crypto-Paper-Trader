@@ -1,4 +1,6 @@
 # Crypto Paper Trader
+[Live Version](https://cryptic-crag-78444.herokuapp.com/)
+
 Paper trading app that allows users to live track their favorited cryptocurrencies, submit buy/sell orders through their accounts ($1M real fake cash given to everyone!), and compete against your own/others' trading strategies.
 
 ## Views
@@ -29,9 +31,6 @@ Paper trading app that allows users to live track their favorited cryptocurrenci
 
 ## API Used
 www.cryptocompare.com
-
-## Live Version
-To be added soon
 
 ### Future additions
 Allow users to add bots with different trading algorithm strategies and compare performance of each through the leaderboard
