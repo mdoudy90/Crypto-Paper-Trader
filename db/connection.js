@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const host = process.env.MONGODB_URI || 'mongodb://localhost/cryptoTrader';
 
-mongoose.connect('mongodb://localhost/cryptoTrader', {useNewUrlParser: true});
+mongoose.connect(`${host}`);
+
+// mongoose.connect('mongodb://localhost/cryptoTrader', {useNewUrlParser: true});
 
 const Schema = mongoose.Schema;
 

@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/index.js",
-    "dev-react": "webpack -d --watch"
+    "start": "node ./server/index.js",
+    "heroku-postbuild": "webpack -p",
+    "dev-react": "webpack -d --watch",
+    "prod-react": "webpack -p"
   },
   "keywords": [],
   "author": "",

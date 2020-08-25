@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { API_KEY } = require('../config');
+const { API_KEY } = process.env.API_KEY || require('../config');
 const API_HOST = 'https://min-api.cryptocompare.com/data/';
 
 // Defaults Parameters
