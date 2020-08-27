@@ -27,6 +27,7 @@ export const Leaderboard: React.FC<Props> = ({ users }) => {
   return (
     <div className='leaderboard-container'>
       <h4>TOP PERFORMERS</h4>
+      <div className='table-outer-container-2'>
       <table>
         <thead>
           <tr>
@@ -51,6 +52,7 @@ export const Leaderboard: React.FC<Props> = ({ users }) => {
           })}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

@@ -22,6 +22,17 @@ table {
   text-align: left;
   border-spacing: 0;
   border-radius: 5px;
+  width: 100%;
+}
+
+.table-outer-container {
+  overflow: auto;
+  height: 300px;
+}
+
+.table-outer-container-2 {
+  overflow: auto;
+  height: 600px;
 }
 
 table tr:first-child th:first-child {
