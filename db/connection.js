@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
-const host = process.env.MONGODB_URI || 'mongodb://localhost/cryptoTrader';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://admin:qIVo3GyPudSuIiR6@cluster0.hnqyi.mongodb.net/<dbname>?retryWrites=true&w=majority';
 
-mongoose.connect(`${host}`);
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 
-// mongoose.connect('mongodb://localhost/cryptoTrader', {useNewUrlParser: true});
+mongoose.connection.on('connected', () => {
+  console.log('Connected to mongo instance');
+});
+mongoose.connection.on('error', (err) => {
+  console.error('Error connectiong to mongo', err);
+});
 
 const Schema = mongoose.Schema;
 
